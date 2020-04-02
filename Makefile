@@ -9,8 +9,7 @@ INC_DIR		= include/
 
 NAME	= strace
 
-SRC	=	src/parse.c	\
-		src/strace.c
+SRC	=	src/strace.c
 
 SRC_TESTS	=
 
