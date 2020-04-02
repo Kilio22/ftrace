@@ -7,7 +7,7 @@
 
 INC_DIR		= include/
 
-NAME	= strace
+NAME	= ftrace
 
 SRC	=	src/strace.c
 
