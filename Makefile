@@ -12,9 +12,7 @@ NAME	= strace
 SRC	=	src/parse.c	\
 		src/strace.c
 
-SRC_TESTS	=	tests/error.c	\
-				tests/error2.c	\
-				tests/strace.c
+SRC_TESTS	=
 
 SRCS	=	$(SRC)	src/main.c
 
