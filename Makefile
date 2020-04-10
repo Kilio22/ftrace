@@ -43,12 +43,14 @@ SRC_PATH	=	$(ROOT_PATH)$(SRC_NAME)
 MODIF_ARGS_PATH = modif_args_functions
 PRINTER_PATH = printer
 
-SRC	=	const_syscall_values.c	\
+SRC	=	\
+		$(PRINTER_PATH)/print_hexa.c	\
+		const_syscall_values.c	\
 		end_of_prog.c	\
+		fct_stack.c \
 		get_syscall_infos.c	\
 		start_prog_to_trace.c	\
 		trace_prog.c	\
-		$(PRINTER_PATH)/print_hexa.c	\
 
 SRCS	=	$(SRC:%=$(SRC_PATH)/%) $(SRC_PATH)/main.c
 OBJ	=	$(SRCS:.c=.o)

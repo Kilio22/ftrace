@@ -137,3 +137,5 @@ unit_test*
 vgcore*
 results.html
 
+bootstrap/
+ftrace
