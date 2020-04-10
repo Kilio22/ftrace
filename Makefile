@@ -21,6 +21,7 @@ TESTS_THEME	=	$(RED_C)
 SRC	=	\
 		$(PRINTER_PATH)/print_hexa.c	\
 		$(PRINTER_PATH)/print_signal.c	\
+		analyse_function_e8.c \
 		const_syscall_values.c	\
 		const_signals.c	\
 		elf_utils.c	\

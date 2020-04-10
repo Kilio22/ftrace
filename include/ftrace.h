@@ -91,7 +91,10 @@ int trace_prog(ftrace_t *ftrace);
 long handle_end_of_prog(ftrace_t *ftrace, int wstatus);
 long get_syscall_infos(ftrace_t *ftrace,
 struct user_regs_struct *registers);
-char *get_function_name(ftrace_t *ftrace, long rip_value);
+
+/* Function analysis */
+long analyse_function_e8(ftrace_t *ftrace, unsigned long long rip);
+char *get_function_name(ftrace_t *ftrace, unsigned long addr);
 
 // Elf utils
 int start_elf(ftrace_t *ftrace, char *filepath);

@@ -23,13 +23,10 @@ static long analyse_opcode(ftrace_t *ftrace)
         return 84;
     if ((rip_value & 0xFFFF) == 0x050f)
         return get_syscall_infos(ftrace, &registers);
-    if ((rip_value & 0xFF) == 0xe8) {
-        printf("Found another symbol\n");
-        get_function_name(ftrace, registers.rip);
-        // return enter_function();
-    }
-    // if ((rip_value & 0xFF) == 0xc3) // Ret close function
-    //     return leave_function();
+    if ((rip_value & 0xFF) == 0xe8)
+        return analyse_function_e8(ftrace, registers.rip);
+    if ((rip_value & 0xFF) == 0xc3)
+        return leave_function(&ftrace->stack);
     return FTRACE_OK;
 }
 
