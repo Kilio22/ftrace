@@ -1,11 +1,11 @@
 /*
 ** EPITECH PROJECT, 2020
-** PSU_strace_2019
+** PSU_ftrace_2019
 ** File description:
 ** get_syscall_infos
 */
 
-#include "strace.h"
+#include "ftrace.h"
 
 static const my_syscall_t *get_syscall(unsigned long long int rax)
 {
@@ -28,29 +28,29 @@ struct user_regs_struct *registers)
     (*registers_values)[5] = registers->r9;
 }
 
-static int get_return_value(strace_t *strace,
+static long get_return_value(ftrace_t *ftrace,
 struct user_regs_struct *registers, const my_syscall_t *sys_call)
 {
     int wstatus = 0;
 
-    if (ptrace(PTRACE_SINGLESTEP, strace->pid, 0, 0) == -1)
+    if (ptrace(PTRACE_SINGLESTEP, ftrace->pid, 0, 0) == -1)
         return 84;
-    waitpid(strace->pid, &wstatus, 0);
+    waitpid(ftrace->pid, &wstatus, 0);
     fprintf(stderr, " = ");
     if (sys_call->is_not_returning_value == true) {
         fprintf(stderr, "?\n");
     } else {
-        if (ptrace(PTRACE_GETREGS, strace->pid, 0, registers) == -1)
+        if (ptrace(PTRACE_GETREGS, ftrace->pid, 0, registers) == -1)
             return 84;
-        print_hexa_value(strace, registers->rax);
+        print_hexa_value(ftrace, registers->rax);
         fprintf(stderr, "\n");
     }
     if (wstatus >> 8 == (SIGTRAP | (PTRACE_EVENT_EXIT << 8)))
-        return handle_end_of_prog(strace, wstatus);
+        return handle_end_of_prog(ftrace, wstatus);
     return -2;
 }
 
-int get_syscall_infos(strace_t *strace, struct user_regs_struct *registers)
+long get_syscall_infos(ftrace_t *ftrace, struct user_regs_struct *registers)
 {
     const my_syscall_t *sys_call = get_syscall(registers->rax);
     unsigned long long int registers_values[6] = {0};
@@ -58,13 +58,13 @@ int get_syscall_infos(strace_t *strace, struct user_regs_struct *registers)
     if (sys_call == NULL)
         return -2;
     get_registers_values(&registers_values, registers);
-    fprintf(stderr, "%ld. %s(", strace->counter, sys_call->fct_name);
-    strace->counter++;
+    fprintf(stderr, "%ld. %s(", ftrace->counter, sys_call->fct_name);
+    ftrace->counter++;
     for (size_t i = 0; i < sys_call->ac; i++) {
-        print_hexa_value(strace, registers_values[i]);
+        print_hexa_value(ftrace, registers_values[i]);
         if (i + 1 < sys_call->ac)
             fprintf(stderr, ", ");
     }
     fprintf(stderr, ")");
-    return get_return_value(strace, registers, sys_call);
+    return get_return_value(ftrace, registers, sys_call);
 }

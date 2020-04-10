@@ -22,6 +22,7 @@ SRC	=	\
 		$(PRINTER_PATH)/print_hexa.c	\
 		const_syscall_values.c	\
 		end_of_prog.c	\
+		get_function_name.c	\
 		fct_stack.c \
 		get_syscall_infos.c	\
 		start_prog_to_trace.c	\
@@ -32,7 +33,7 @@ OBJ	=	$(SRCS:.c=.o)
 
 CFLAGS	=	-Wall -Wextra -Werror -I $(INCL_PATH)
 LDFLAGS	=
-LDLIBS	=
+LDLIBS	= -lelf
 DEBUG_FLAGS	=	-g3 -gdwarf-4
 
 all: message $(NAME)

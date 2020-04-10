@@ -1,11 +1,11 @@
 /*
 ** EPITECH PROJECT, 2020
-** PSU_strace_2019
+** PSU_ftrace_2019
 ** File description:
 ** syscalls
 */
 
-#include "strace.h"
+#include "ftrace.h"
 
 const my_syscall_t my_syscalls[SYSCALLS_NB] = {
     {

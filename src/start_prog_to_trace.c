@@ -1,13 +1,13 @@
 /*
 ** EPITECH PROJECT, 2020
-** PSU_strace_2019
+** PSU_ftrace_2019
 ** File description:
 ** start_prog_to_trace
 */
 
-#include "strace.h"
+#include "ftrace.h"
 
-int start_prog_to_trace(strace_t *strace, char **av)
+int start_prog_to_trace(ftrace_t *ftrace, char **av)
 {
     pid_t pid = fork();
     int wstatus = 0;
@@ -18,7 +18,7 @@ int start_prog_to_trace(strace_t *strace, char **av)
     } else {
         if (pid == -1)
             return -1;
-        strace->pid = pid;
+        ftrace->pid = pid;
         waitpid(pid, &wstatus, 0);
         if (ptrace(PTRACE_SETOPTIONS, pid, 0, PTRACE_O_TRACEEXIT) == -1)
             return -1;

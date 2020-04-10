@@ -1,39 +1,53 @@
 /*
 ** EPITECH PROJECT, 2020
-** PSU_strace_2019
+** PSU_ftrace_2019
 ** File description:
-** strace_prog
+** ftrace_prog
 */
 
-#include "strace.h"
+#include "ftrace.h"
 
-long get_rip_value(strace_t *strace, struct user_regs_struct *registers)
+static long get_rip_value(ftrace_t *ftrace, struct user_regs_struct *registers)
 {
-    if (ptrace(PTRACE_GETREGS, strace->pid, 0, registers) == -1)
+    if (ptrace(PTRACE_GETREGS, ftrace->pid, 0, registers) == -1)
         return -1;
-    return ptrace(PTRACE_PEEKTEXT, strace->pid, registers->rip);
+    return ptrace(PTRACE_PEEKTEXT, ftrace->pid, registers->rip);
 }
 
-int trace_prog(strace_t *strace)
+static long analyse_opcode(ftrace_t *ftrace)
+{
+    struct user_regs_struct registers = {0};
+    long rip_value = get_rip_value(ftrace, &registers);
+
+    if (rip_value == -1)
+        return 84;
+    if ((rip_value & 0xFFFF) == 0x050f)
+        return get_syscall_infos(ftrace, &registers);
+    if ((rip_value & 0xFF) == 0xe8) {
+        printf("Found another symbol\n");
+        get_function_name(ftrace, registers.rip);
+        // return enter_function();
+    }
+    // if ((rip_value & 0xFF) == 0xc3) // Ret close function
+    //     return leave_function();
+    return -2;
+}
+
+int trace_prog(ftrace_t *ftrace)
 {
     int wstatus = 0;
-    struct user_regs_struct registers = {0};
-    long rip_value = 0;
     long ret_val = -2;
 
     while (42) {
-        waitpid(strace->pid, &wstatus, 0);
+        waitpid(ftrace->pid, &wstatus, 0);
+        // detect_signal(wstatus);
         if (wstatus >> 8 == (SIGTRAP | (PTRACE_EVENT_EXIT << 8)))
-            return handle_end_of_prog(strace, wstatus);
-        rip_value = get_rip_value(strace, &registers);
-        if (rip_value == -1)
-            return 84;
-        if ((rip_value & 0xFFFF) == 0x050f)
-            ret_val = get_syscall_infos(strace, &registers);
+            return handle_end_of_prog(ftrace, wstatus);
+        ret_val = analyse_opcode(ftrace);
         if (ret_val != -2)
             return ret_val;
-        if (ptrace(PTRACE_SINGLESTEP, strace->pid, 0, 0) == -1)
-            return 84;
+        if (ptrace(PTRACE_SINGLESTEP, ftrace->pid, 0, 0) == -1)
+            return FTRACE_EXIT_FAILURE;
     }
-    return 0;
+    return FTRACE_EXIT_SUCCESS;
 }
