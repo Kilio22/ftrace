@@ -33,7 +33,8 @@ int main(int ac, char **av)
 
     if (ac != 2)
         return FTRACE_FAILURE;
-    init_fct_stack(&ftrace.stack);
+    if (init_fct_stack(&ftrace.stack) == -1)
+        return FTRACE_FAILURE;
     if (start_prog_to_trace(&ftrace, av) == -1)
         return FTRACE_FAILURE;
     fd = start_elf(&ftrace, av[1]);
