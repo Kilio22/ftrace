@@ -7,10 +7,13 @@
 
 #include "ftrace.h"
 
-int detect_signal(int wstatus)
+int detect_signal(int wstatus, ftrace_t *ftrace)
 {
     if (wstatus >> 8 == (SIGTRAP | (PTRACE_EVENT_EXIT << 8)))
         return handle_end_of_prog(ftrace, wstatus);
-    else
-         print_signal(int wstatus)
+    if (WIFSIGNALED(wstatus)) {
+        print_signal(wstatus);
+        return (1);
+    }
+    return (0);
 }

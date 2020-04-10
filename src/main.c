@@ -7,25 +7,6 @@
 
 #include "ftrace.h"
 
-int start_elf(ftrace_t *ftrace, char *filepath)
-{
-    int fd = open(filepath, O_RDONLY);
-
-    if (fd == -1)
-        return -1;
-    if (elf_version(EV_CURRENT) == EV_NONE) {
-        fprintf(stderr, "Cannot load libelf.\n");
-        close(fd);
-        return -1;
-    }
-    ftrace->elf_file = elf_begin(fd, ELF_C_READ, NULL);
-    if (ftrace->elf_file == NULL) {
-        close(fd);
-        return -1;
-    }
-    return fd;
-}
-
 int main(int ac, char **av)
 {
     ftrace_t ftrace = {0};
@@ -38,6 +19,8 @@ int main(int ac, char **av)
     fd = start_elf(&ftrace, av[1]);
     if (fd == -1)
         return FTRACE_EXIT_FAILURE;
+    elf_end(ftrace.elf_file);
+    free(ftrace.symbol_header);
     close(fd);
     return trace_prog(&ftrace);
 }

@@ -37,5 +37,5 @@ const my_signal_t my_signals[SIGNALS_NB] = {
     {"SIGIO", SIGIO},
     {"SIGPWR", SIGPWR},
     {"SIGSYS", SIGSYS},
-    {"NULL", 0};
-}
+    {"NULL", 0}
+};

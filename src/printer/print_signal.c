@@ -9,8 +9,10 @@
 
 void print_signal(int signal_value)
 {
-    for (size_t count; my_signals[count].name != NULL) ; count++) {
-        if (signal_value == my_signals[count].value)
+    for (size_t count; my_signals[count].name != NULL; count++) {
+        if (signal_value == my_signals[count].value) {
             printf("Received signal %s", my_signals[count].name);
+            break;
+        }
     }
 }

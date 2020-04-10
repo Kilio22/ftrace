@@ -20,13 +20,17 @@ TESTS_THEME	=	$(RED_C)
 
 SRC	=	\
 		$(PRINTER_PATH)/print_hexa.c	\
+		$(PRINTER_PATH)/print_signal.c	\
 		const_syscall_values.c	\
+		const_signals.c	\
+		elf_utils.c	\
 		end_of_prog.c	\
 		get_function_name.c	\
 		fct_stack.c \
 		get_syscall_infos.c	\
 		start_prog_to_trace.c	\
 		trace_prog.c	\
+		signals.c
 
 SRCS	=	$(SRC:%=$(SRC_PATH)/%) $(SRC_PATH)/main.c
 OBJ	=	$(SRCS:.c=.o)

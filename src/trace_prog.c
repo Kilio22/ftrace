@@ -40,9 +40,8 @@ int trace_prog(ftrace_t *ftrace)
 
     while (42) {
         waitpid(ftrace->pid, &wstatus, 0);
-        // detect_signal(wstatus);
-        if (wstatus >> 8 == (SIGTRAP | (PTRACE_EVENT_EXIT << 8)))
-            return handle_end_of_prog(ftrace, wstatus);
+        if (detect_signal(wstatus, ftrace) != 0)
+            break;
         ret_val = analyse_opcode(ftrace);
         if (ret_val != -2)
             return ret_val;

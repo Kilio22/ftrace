@@ -31,7 +31,6 @@
 #define FTRACE_EXIT_SUCCESS 0
 
 typedef struct ftrace_s ftrace_t;
-typedef struct arg_s arg_t;
 
 enum ret_val_type_e
 {
@@ -67,17 +66,12 @@ struct my_syscall_s
     my_syscall_arg_t av[6];
 };
 
-struct arg_s
-{
-    int c;
-    int (*change)(ftrace_t *ftrace, char *value);
-};
-
 struct ftrace_s
 {
     char **args;
     pid_t pid;
     Elf *elf_file;
+    GElf_Shdr *symbol_header;
     size_t counter;
 };
 
@@ -99,7 +93,14 @@ long get_syscall_infos(ftrace_t *ftrace,
 struct user_regs_struct *registers);
 char *get_function_name(ftrace_t *ftrace, long rip_value);
 
+// Elf utils
+int start_elf(ftrace_t *ftrace, char *filepath);
+
 // For the print
 int print_hexa_value(ftrace_t *ftrace, unsigned long long int value);
+void print_signal(int signal_value);
+
+//To detect signals
+int detect_signal(int wstatus, ftrace_t *ftrace);
 
 #endif /* !STRACE_H_ */
