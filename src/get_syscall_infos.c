@@ -47,7 +47,7 @@ struct user_regs_struct *registers, const my_syscall_t *sys_call)
     }
     if (wstatus >> 8 == (SIGTRAP | (PTRACE_EVENT_EXIT << 8)))
         return handle_end_of_prog(ftrace, wstatus);
-    return -2;
+    return FTRACE_OK;
 }
 
 long get_syscall_infos(ftrace_t *ftrace, struct user_regs_struct *registers)
@@ -56,7 +56,7 @@ long get_syscall_infos(ftrace_t *ftrace, struct user_regs_struct *registers)
     unsigned long long int registers_values[6] = {0};
 
     if (sys_call == NULL)
-        return -2;
+        return FTRACE_OK;
     get_registers_values(&registers_values, registers);
     fprintf(stderr, "%ld. %s(", ftrace->counter, sys_call->fct_name);
     ftrace->counter++;

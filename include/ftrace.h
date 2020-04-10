@@ -8,27 +8,26 @@
 #ifndef STRACE_H_
 #define STRACE_H_
 
-#include <stdbool.h>
-#include <sys/types.h>
-#include <unistd.h>
-#include <string.h>
+#include "codes.h"
+#include "fct_stack.h"
 #include <ctype.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <sys/ptrace.h>
-#include <sys/wait.h>
-#include <sys/user.h>
-#include <signal.h>
 #include <fcntl.h>
-#include <libelf.h>
 #include <gelf.h>
+#include <libelf.h>
+#include <signal.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/ptrace.h>
+#include <sys/types.h>
+#include <sys/user.h>
+#include <sys/wait.h>
+#include <unistd.h>
 
-#define ARGS_NB 3
 #define SYSCALLS_NB 313
 #define SIGNALS_NB 30
 #define BUFF_SIZE 4096
-#define FTRACE_EXIT_FAILURE 84
-#define FTRACE_EXIT_SUCCESS 0
 
 typedef struct ftrace_s ftrace_t;
 
@@ -73,6 +72,7 @@ struct ftrace_s
     Elf *elf_file;
     GElf_Shdr *symbol_header;
     size_t counter;
+    struct fct_stack_s stack;
 };
 
 struct my_signal_s
