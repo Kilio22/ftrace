@@ -7,11 +7,11 @@
 
 #include "strace.h"
 
-int handle_end_of_prog(strace_t *strace_args, int wstatus)
+int handle_end_of_prog(strace_t *strace, int wstatus)
 {
     int exit_status = 0;
 
-    if (ptrace(PTRACE_GETEVENTMSG, strace_args->pid, 0, &wstatus) == -1)
+    if (ptrace(PTRACE_GETEVENTMSG, strace->pid, 0, &wstatus) == -1)
         return 84;
     exit_status = WEXITSTATUS(wstatus);
     fprintf(stderr, "+++ exited with %d +++\n", exit_status);

@@ -10,11 +10,11 @@
 
 int main(int ac, char **av)
 {
-    strace_t strace_args = {0};
+    strace_t strace = {0};
 
     if (ac < 2)
         return 84;
-    if (start_prog_to_trace(&strace_args, av) == -1)
+    if (start_prog_to_trace(&strace, av) == -1)
         return 84;
-    return trace_prog(&strace_args);
+    return trace_prog(&strace);
 }

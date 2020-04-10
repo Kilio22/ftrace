@@ -40,13 +40,13 @@ enum ret_val_type_e
 
 typedef struct my_syscall_s my_syscall_t;
 typedef struct my_syscall_arg_s my_syscall_arg_t;
-typedef int (* const printer_fcts_t)(strace_t *strace_args,
+typedef int (* const printer_fcts_t)(strace_t *strace,
 unsigned long long int value);
 
 struct my_syscall_arg_s
 {
     enum ret_val_type_e val_type;
-    int (*callback)(strace_t *strace_args, unsigned long long int value);
+    int (*callback)(strace_t *strace, unsigned long long int value);
 };
 
 struct my_syscall_s
@@ -62,13 +62,14 @@ struct my_syscall_s
 struct arg_s
 {
     int c;
-    int (*change)(strace_t *strace_args, char *value);
+    int (*change)(strace_t *strace, char *value);
 };
 
 struct strace_s
 {
     char **args;
     pid_t pid;
+    size_t counter;
 };
 
 extern const my_syscall_t my_syscalls[SYSCALLS_NB];
@@ -77,12 +78,12 @@ extern const my_syscall_t my_syscalls[SYSCALLS_NB];
 int start_prog_to_trace(strace_t *strace, char **av);
 
 // To trace program
-int trace_prog(strace_t *strace_args);
-int handle_end_of_prog(strace_t *strace_args, int wstatus);
-int get_syscall_infos(strace_t *strace_args,
+int trace_prog(strace_t *strace);
+int handle_end_of_prog(strace_t *strace, int wstatus);
+int get_syscall_infos(strace_t *strace,
 struct user_regs_struct *registers);
 
 // For the print
-int print_hexa_value(strace_t *strace_args, unsigned long long int value);
+int print_hexa_value(strace_t *strace, unsigned long long int value);
 
 #endif /* !STRACE_H_ */

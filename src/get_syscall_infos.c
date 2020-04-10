@@ -28,29 +28,29 @@ struct user_regs_struct *registers)
     (*registers_values)[5] = registers->r9;
 }
 
-static int get_return_value(strace_t *strace_args,
+static int get_return_value(strace_t *strace,
 struct user_regs_struct *registers, const my_syscall_t *sys_call)
 {
     int wstatus = 0;
 
-    if (ptrace(PTRACE_SINGLESTEP, strace_args->pid, 0, 0) == -1)
+    if (ptrace(PTRACE_SINGLESTEP, strace->pid, 0, 0) == -1)
         return 84;
-    waitpid(strace_args->pid, &wstatus, 0);
+    waitpid(strace->pid, &wstatus, 0);
     fprintf(stderr, " = ");
     if (sys_call->is_not_returning_value == true) {
         fprintf(stderr, "?\n");
     } else {
-        if (ptrace(PTRACE_GETREGS, strace_args->pid, 0, registers) == -1)
+        if (ptrace(PTRACE_GETREGS, strace->pid, 0, registers) == -1)
             return 84;
-        print_hexa_value(strace_args, registers->rax);
+        print_hexa_value(strace, registers->rax);
         fprintf(stderr, "\n");
     }
     if (wstatus >> 8 == (SIGTRAP | (PTRACE_EVENT_EXIT << 8)))
-        return handle_end_of_prog(strace_args, wstatus);
+        return handle_end_of_prog(strace, wstatus);
     return -2;
 }
 
-int get_syscall_infos(strace_t *strace_args, struct user_regs_struct *registers)
+int get_syscall_infos(strace_t *strace, struct user_regs_struct *registers)
 {
     const my_syscall_t *sys_call = get_syscall(registers->rax);
     unsigned long long int registers_values[6] = {0};
@@ -58,12 +58,13 @@ int get_syscall_infos(strace_t *strace_args, struct user_regs_struct *registers)
     if (sys_call == NULL)
         return -2;
     get_registers_values(&registers_values, registers);
-    fprintf(stderr, "%s(", sys_call->fct_name);
+    fprintf(stderr, "%ld. %s(", strace->counter, sys_call->fct_name);
+    strace->counter++;
     for (size_t i = 0; i < sys_call->ac; i++) {
-        print_hexa_value(strace_args, registers_values[i]);
+        print_hexa_value(strace, registers_values[i]);
         if (i + 1 < sys_call->ac)
             fprintf(stderr, ", ");
     }
     fprintf(stderr, ")");
-    return get_return_value(strace_args, registers, sys_call);
+    return get_return_value(strace, registers, sys_call);
 }
