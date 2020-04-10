@@ -19,19 +19,20 @@ DEBUG_THEME	=	$(CYAN_C)
 TESTS_THEME	=	$(RED_C)
 
 SRC	=	\
+		elf_utils/end_elf.c	\
+		elf_utils/start_elf.c	\
+		globals/const_signals.c	\
+		globals/const_syscall_values.c	\
 		$(PRINTER_PATH)/print_hexa.c	\
 		$(PRINTER_PATH)/print_signal.c	\
 		analyse_function_e8.c \
-		const_syscall_values.c	\
-		const_signals.c	\
-		elf_utils.c	\
 		end_of_prog.c	\
 		get_function_name.c	\
 		fct_stack.c \
 		get_syscall_infos.c	\
+		signals.c \
 		start_prog_to_trace.c	\
-		trace_prog.c	\
-		signals.c
+		trace_prog.c
 
 SRCS	=	$(SRC:%=$(SRC_PATH)/%) $(SRC_PATH)/main.c
 OBJ	=	$(SRCS:.c=.o)

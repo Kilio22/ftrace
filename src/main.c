@@ -21,8 +21,6 @@ int main(int ac, char **av)
     fd = start_elf(&ftrace, av[1]);
     if (fd == -1)
         return FTRACE_FAILURE;
-    elf_end(ftrace.elf_file);
-    free(ftrace.symbol_header);
-    close(fd);
+    end_elf(&ftrace, fd);
     return trace_prog(&ftrace);
 }

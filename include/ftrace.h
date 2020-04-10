@@ -98,6 +98,7 @@ char *get_function_name(ftrace_t *ftrace, unsigned long addr);
 
 // Elf utils
 int start_elf(ftrace_t *ftrace, char *filepath);
+void end_elf(ftrace_t *ftrace, int fd);
 
 // For the print
 int print_hexa_value(ftrace_t *ftrace, unsigned long long int value);
