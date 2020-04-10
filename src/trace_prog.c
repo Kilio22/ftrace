@@ -30,13 +30,13 @@ static long analyse_opcode(ftrace_t *ftrace)
     }
     // if ((rip_value & 0xFF) == 0xc3) // Ret close function
     //     return leave_function();
-    return -2;
+    return FTRACE_OK;
 }
 
 int trace_prog(ftrace_t *ftrace)
 {
     int wstatus = 0;
-    long ret_val = -2;
+    long ret_val = FTRACE_OK;
 
     while (42) {
         waitpid(ftrace->pid, &wstatus, 0);
@@ -44,10 +44,10 @@ int trace_prog(ftrace_t *ftrace)
         if (wstatus >> 8 == (SIGTRAP | (PTRACE_EVENT_EXIT << 8)))
             return handle_end_of_prog(ftrace, wstatus);
         ret_val = analyse_opcode(ftrace);
-        if (ret_val != -2)
+        if (ret_val != FTRACE_OK)
             return ret_val;
         if (ptrace(PTRACE_SINGLESTEP, ftrace->pid, 0, 0) == -1)
-            return FTRACE_EXIT_FAILURE;
+            return FTRACE_FAILURE;
     }
-    return FTRACE_EXIT_SUCCESS;
+    return FTRACE_SUCCESS;
 }

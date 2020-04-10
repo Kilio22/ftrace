@@ -31,13 +31,14 @@ int main(int ac, char **av)
     ftrace_t ftrace = {0};
     int fd = 0;
 
-    if (ac < 2)
-        return FTRACE_EXIT_FAILURE;
+    if (ac != 2)
+        return FTRACE_FAILURE;
+    init_fct_stack(&ftrace.stack);
     if (start_prog_to_trace(&ftrace, av) == -1)
-        return FTRACE_EXIT_FAILURE;
+        return FTRACE_FAILURE;
     fd = start_elf(&ftrace, av[1]);
     if (fd == -1)
-        return FTRACE_EXIT_FAILURE;
+        return FTRACE_FAILURE;
     close(fd);
     return trace_prog(&ftrace);
 }

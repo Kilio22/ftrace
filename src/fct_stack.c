@@ -6,11 +6,10 @@
 */
 
 #include "fct_stack.h"
+#include "codes.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-#define FTRACE_OK -2
 
 int init_fct_stack(struct fct_stack_s * const stack)
 {
