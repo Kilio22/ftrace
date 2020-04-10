@@ -29,7 +29,7 @@ LIGHT_MAGEN	=	"\e[95m"
 LIGHT_CYAN	=	"\e[96m"
 LINE_RETURN	=	$(ECHO) ""
 
-NAME	=	strace
+NAME	=	ftrace
 COLOR_THEME	=	$(BLUE_C)
 TESTS_COLOR_THEME	=	$(RED_C)
 
@@ -43,28 +43,12 @@ SRC_PATH	=	$(ROOT_PATH)$(SRC_NAME)
 MODIF_ARGS_PATH = modif_args_functions
 PRINTER_PATH = printer
 
-SRC	=	attach_to_pid.c	\
-		const_syscall_values.c	\
-		detailled_print.c	\
+SRC	=	const_syscall_values.c	\
 		end_of_prog.c	\
 		get_syscall_infos.c	\
-		parse_args.c	\
 		start_prog_to_trace.c	\
 		trace_prog.c	\
-		$(MODIF_ARGS_PATH)/change_detailled_mode.c	\
-		$(MODIF_ARGS_PATH)/change_pid.c	\
-		$(MODIF_ARGS_PATH)/change_prog_to_trace.c	\
-		$(PRINTER_PATH)/print_decimal.c	\
 		$(PRINTER_PATH)/print_hexa.c	\
-		$(PRINTER_PATH)/print_string.c	\
-		$(PRINTER_PATH)/print_socket.c	\
-		$(PRINTER_PATH)/print_stat_struct.c	\
-		$(PRINTER_PATH)/print_poll_struct.c	\
-		$(PRINTER_PATH)/print_open_flags.c	\
-		$(PRINTER_PATH)/print_mmap_flags.c	\
-		$(PRINTER_PATH)/print_pointer.c	\
-		$(PRINTER_PATH)/print_unsigned.c	\
-		$(PRINTER_PATH)/print_signed.c	\
 
 SRCS	=	$(SRC:%=$(SRC_PATH)/%) $(SRC_PATH)/main.c
 OBJ	=	$(SRCS:.c=.o)

@@ -40,15 +40,8 @@ enum ret_val_type_e
 
 typedef struct my_syscall_s my_syscall_t;
 typedef struct my_syscall_arg_s my_syscall_arg_t;
-typedef struct my_flags_s my_flags_t;
 typedef int (* const printer_fcts_t)(strace_t *strace_args,
 unsigned long long int value);
-
-struct my_flags_s
-{
-    unsigned int value;
-    const char *str;
-};
 
 struct my_syscall_arg_s
 {
@@ -74,26 +67,14 @@ struct arg_s
 
 struct strace_s
 {
-    bool is_detailled_mode;
-    bool is_pid_mode;
-    char *prog_to_trace;
     char **args;
     pid_t pid;
 };
 
 extern const my_syscall_t my_syscalls[SYSCALLS_NB];
 
-// Parsing
-int parse_args(int ac, char **av, strace_t *strace_args);
-int change_detailled_mode(strace_t *strace_args, char *value);
-int change_pid(strace_t *strace_args, char *value);
-int change_prog_to_trace(strace_t *strace_args, char *value);
-
-// Connect to pid
-int attach_to_pid(strace_t *strace_args);
-
 // Start given program
-int start_prog_to_trace(strace_t *strace_args);
+int start_prog_to_trace(strace_t *strace, char **av);
 
 // To trace program
 int trace_prog(strace_t *strace_args);
@@ -102,27 +83,6 @@ int get_syscall_infos(strace_t *strace_args,
 struct user_regs_struct *registers);
 
 // For the print
-int detailled_print(strace_t *strace_args, my_syscall_arg_t arg,
-unsigned long long int value);
-int detailled_return_value_print(strace_t *strace_args,
-enum ret_val_type_e val_type, unsigned long long int value);
 int print_hexa_value(strace_t *strace_args, unsigned long long int value);
-int print_pointer_value(strace_t *strace_args, unsigned long long int value);
-int print_decimal_value(strace_t *strace_args, unsigned long long int value);
-int print_string_value(strace_t *strace_args, unsigned long long int value);
-int print_long_value(strace_t *strace_args, unsigned long long int value);
-int print_size_t_value(strace_t *strace_args, unsigned long long int value);
-int print_u_long_value(strace_t *strace_args, unsigned long long int value);
-int print_ssize_t_value(strace_t *strace_args, unsigned long long int value);
-int print_stat_struct(strace_t *strace_args, unsigned long long int value);
-
-// Special prints
-int print_open_flags(strace_t *strace_args, unsigned long long int value);
-int print_mmap_flags(strace_t *strace_args, unsigned long long int value);
-int print_mmap_prot(strace_t *strace_args, unsigned long long int value);
-int print_poll_struct(strace_t *strace_args, unsigned long long int value);
-int print_socket_domain(strace_t *strace_args, unsigned long long int value);
-int print_socket_type(strace_t *strace_args, unsigned long long int value);
-
 
 #endif /* !STRACE_H_ */

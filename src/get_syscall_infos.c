@@ -42,11 +42,7 @@ struct user_regs_struct *registers, const my_syscall_t *sys_call)
     } else {
         if (ptrace(PTRACE_GETREGS, strace_args->pid, 0, registers) == -1)
             return 84;
-        if (strace_args->is_detailled_mode == true) {
-            detailled_return_value_print(strace_args,
-sys_call->ret_val_type, registers->rax);
-        } else
-            print_hexa_value(strace_args, registers->rax);
+        print_hexa_value(strace_args, registers->rax);
         fprintf(stderr, "\n");
     }
     if (wstatus >> 8 == (SIGTRAP | (PTRACE_EVENT_EXIT << 8)))
@@ -64,10 +60,7 @@ int get_syscall_infos(strace_t *strace_args, struct user_regs_struct *registers)
     get_registers_values(&registers_values, registers);
     fprintf(stderr, "%s(", sys_call->fct_name);
     for (size_t i = 0; i < sys_call->ac; i++) {
-        if (strace_args->is_detailled_mode == true)
-            detailled_print(strace_args, sys_call->av[i], registers_values[i]);
-        else
-            print_hexa_value(strace_args, registers_values[i]);
+        print_hexa_value(strace_args, registers_values[i]);
         if (i + 1 < sys_call->ac)
             fprintf(stderr, ", ");
     }

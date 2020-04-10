@@ -62,7 +62,7 @@ const my_syscall_t my_syscalls[SYSCALLS_NB] = {
                 .callback = NULL
             },
             {
-                .callback = &print_open_flags
+                .callback = NULL
             },
             {
                 .val_type = INTEGER,
@@ -96,7 +96,7 @@ const my_syscall_t my_syscalls[SYSCALLS_NB] = {
             },
             {
                 .val_type = DEFAULT,
-                .callback = &print_stat_struct
+                .callback = NULL
             },
         }
     },
@@ -113,7 +113,7 @@ const my_syscall_t my_syscalls[SYSCALLS_NB] = {
             },
             {
                 .val_type = DEFAULT,
-                .callback = &print_stat_struct
+                .callback = NULL
             },
         }
     },
@@ -130,7 +130,7 @@ const my_syscall_t my_syscalls[SYSCALLS_NB] = {
             },
             {
                 .val_type = DEFAULT,
-                .callback = &print_stat_struct
+                .callback = NULL
             },
         }
     },
@@ -142,7 +142,7 @@ const my_syscall_t my_syscalls[SYSCALLS_NB] = {
         .ac = 3,
         .av = {
             {
-                .callback = &print_poll_struct
+                .callback = NULL
             },
             {
                 .val_type = DEFAULT,
@@ -191,10 +191,10 @@ const my_syscall_t my_syscalls[SYSCALLS_NB] = {
                 .callback = NULL
             },
             {
-                .callback = &print_mmap_prot
+                .callback = NULL
             },
             {
-                .callback = &print_mmap_flags
+                .callback = NULL
             },
             {
                 .val_type = INTEGER,
@@ -783,10 +783,10 @@ const my_syscall_t my_syscalls[SYSCALLS_NB] = {
         .ac = 3,
         .av = {
             {
-                .callback = &print_socket_domain
+                .callback = NULL
             },
             {
-                .callback = &print_socket_type
+                .callback = NULL
             },
             {
                 .val_type = DEFAULT,
@@ -4734,7 +4734,7 @@ const my_syscall_t my_syscalls[SYSCALLS_NB] = {
                 .callback = NULL
             },
             {
-                .callback = &print_open_flags
+                .callback = NULL
             },
             {
                 .val_type = INTEGER,
