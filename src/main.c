@@ -11,6 +11,7 @@ int main(int ac, char **av)
 {
     ftrace_t ftrace = {0};
     int fd = 0;
+    int ret_val = 0;
 
     if (ac != 2)
         return FTRACE_FAILURE;
@@ -21,6 +22,7 @@ int main(int ac, char **av)
     fd = start_elf(&ftrace, av[1]);
     if (fd == -1)
         return FTRACE_FAILURE;
+    ret_val = trace_prog(&ftrace);
     end_elf(&ftrace, fd);
-    return trace_prog(&ftrace);
+    return ret_val;
 }
