@@ -116,7 +116,7 @@ void end_elf(ftrace_t *ftrace, int fd);
 
 // For the print
 int print_hexa_value(ftrace_t *ftrace, unsigned long long int value);
-void print_signal(int signal_value);
+void print_signal(int signal_value, ftrace_t *ftrace);
 
 //To detect signals
 int detect_signal(int wstatus, ftrace_t *ftrace);

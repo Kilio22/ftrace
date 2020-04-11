@@ -7,12 +7,12 @@
 
 #include "ftrace.h"
 
-void print_signal(int signal_value)
+void print_signal(int signal_value, ftrace_t *ftrace)
 {
-    for (size_t count; my_signals[count].name != NULL; count++) {
-        if (signal_value == my_signals[count].value) {
-            printf("Received signal %s", my_signals[count].name);
-            break;
+    for (size_t count = 0; my_signals[count].name != NULL; count++) {
+        if (my_signals[count].value == signal_value) {
+            printf("%ld. Receive Signal %s\n", ftrace->counter, my_signals[count].name);
+            ftrace->counter++;
         }
     }
 }
