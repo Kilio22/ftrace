@@ -30,15 +30,13 @@ SRC	=	\
 		analyse_function_e8.c \
 		analyse_function_ff.c \
 		end_of_prog.c \
-		get_function_name.c	\
 		fct_stack.c \
+		find_library.c \
+		get_function_name.c	\
 		get_syscall_infos.c	\
 		signals.c \
 		start_prog_to_trace.c	\
-		trace_prog.c	\
-		parser/parse_maps.c \
-		parser/utils_parser.c \
-		find_library.c
+		trace_prog.c
 
 SRCS	=	$(SRC:%=$(SRC_PATH)/%) $(SRC_PATH)/main.c
 OBJ	=	$(SRCS:.c=.o)

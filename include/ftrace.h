@@ -108,7 +108,7 @@ long get_rip_value(ftrace_t *ftrace, struct user_regs_struct *registers);
 long analyse_function_e8(ftrace_t *ftrace, unsigned long long rip);
 long analyse_function_9a(ftrace_t *ftrace, unsigned long long rip);
 long analyse_function_ff(ftrace_t *ftrace, unsigned long long rip);
-char *get_function_name(struct elf_file_s *elf, unsigned long addr);
+char *get_function_name(ftrace_t *ftrace, unsigned long addr);
 
 // Elf utils
 int start_elf(ftrace_t *ftrace, char *filepath);
