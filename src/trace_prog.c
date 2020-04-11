@@ -7,7 +7,7 @@
 
 #include "ftrace.h"
 
-static long get_rip_value(ftrace_t *ftrace, struct user_regs_struct *registers)
+long get_rip_value(ftrace_t *ftrace, struct user_regs_struct *registers)
 {
     if (ptrace(PTRACE_GETREGS, ftrace->pid, 0, registers) == -1)
         return -1;

@@ -8,8 +8,6 @@
 #ifndef STRACE_H_
 #define STRACE_H_
 
-#include "codes.h"
-#include "fct_stack.h"
 #include <ctype.h>
 #include <fcntl.h>
 #include <gelf.h>
@@ -25,6 +23,9 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include <sys/stat.h>
+#include "codes.h"
+#include "fct_stack.h"
+#include "parser.h"
 
 #define SYSCALLS_NB 313
 #define SIGNALS_NB 30
@@ -70,6 +71,8 @@ struct elf_file_s {
     Elf *elf;
     GElf_Shdr *sym_shdr;
     Elf_Data *sym_data;
+    GElf_Shdr *plt_shdr;
+    Elf_Data *plt_data;
 };
 
 struct ftrace_s
@@ -79,6 +82,7 @@ struct ftrace_s
     size_t counter;
     struct elf_file_s elf;
     struct fct_stack_s stack;
+    process_library_t **library_list;
 };
 
 struct my_signal_s
@@ -97,10 +101,11 @@ int trace_prog(ftrace_t *ftrace);
 long handle_end_of_prog(ftrace_t *ftrace, int wstatus);
 long get_syscall_infos(ftrace_t *ftrace,
 struct user_regs_struct *registers);
+long get_rip_value(ftrace_t *ftrace, struct user_regs_struct *registers);
 
 /* Function analysis */
 long analyse_function_e8(ftrace_t *ftrace, unsigned long long rip);
-char *get_function_name(struct elf_file_s *elf, unsigned long addr);
+char *get_function_name(ftrace_t *ftrace, unsigned long addr);
 
 // Elf utils
 int start_elf(ftrace_t *ftrace, char *filepath);
@@ -112,5 +117,8 @@ void print_signal(int signal_value);
 
 //To detect signals
 int detect_signal(int wstatus, ftrace_t *ftrace);
+
+void set_list_library(ftrace_t *ftrace);
+process_library_t *find_library(ftrace_t *ftrace, unsigned long addr);
 
 #endif /* !STRACE_H_ */

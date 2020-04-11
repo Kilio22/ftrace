@@ -11,10 +11,12 @@
 process_library_t *create_data(char *name, char *start, char *end)
 {
     process_library_t *new = malloc(sizeof(process_library_t));
+    char *ptr_start = start;
+    char *ptr_end = end;
 
     new->name = strdup(name);
-    new->start_adr = (unsigned long)atoi(start);
-    new->end_adr = (unsigned long)atoi(end);
+    new->start_adr = strtol(start, &ptr_start, 16);
+    new->end_adr = strtol(end, &ptr_end, 16);
     return new;
 }
 

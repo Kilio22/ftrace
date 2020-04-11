@@ -26,6 +26,27 @@ static int get_symbol_table_hdr(ftrace_t *ftrace)
     return 0;
 }
 
+static int get_rela_plt_hdr(ftrace_t *ftrace)
+{
+    Elf_Scn *scn = NULL;
+    GElf_Shdr *shdr = malloc(sizeof(GElf_Shdr));
+    size_t ndxptr = 0;
+
+    if (shdr == NULL || elf_getshdrstrndx(ftrace->elf.elf, &ndxptr) == 0)
+        return -1;
+    while ((scn = elf_nextscn(ftrace->elf.elf, scn)) != NULL) {
+        gelf_getshdr(scn, shdr);
+        if (shdr->sh_type == SHT_RELA && strcmp(".rela.plt", elf_strptr(ftrace->elf.elf,
+            ndxptr, shdr->sh_name)) == 0)
+            break;
+    }
+    if (scn == NULL)
+        return 0;
+    ftrace->elf.plt_shdr = shdr;
+    ftrace->elf.plt_data = elf_getdata(scn, NULL);
+    return 0;
+}
+
 int start_elf(ftrace_t *ftrace, char *filepath)
 {
     int fd = open(filepath, O_RDONLY);
@@ -42,7 +63,7 @@ int start_elf(ftrace_t *ftrace, char *filepath)
         close(fd);
         return -1;
     }
-    if (get_symbol_table_hdr(ftrace) == -1) {
+    if (get_symbol_table_hdr(ftrace) == -1 || get_rela_plt_hdr(ftrace) == -1) {
         close(fd);
         return -1;
     }

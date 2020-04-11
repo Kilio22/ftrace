@@ -34,7 +34,8 @@ SRC	=	\
 		start_prog_to_trace.c	\
 		trace_prog.c	\
 		parser/parse_maps.c \
-		parser/utils_parser.c
+		parser/utils_parser.c \
+		find_library.c
 
 SRCS	=	$(SRC:%=$(SRC_PATH)/%) $(SRC_PATH)/main.c
 OBJ	=	$(SRCS:.c=.o)

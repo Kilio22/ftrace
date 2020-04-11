@@ -8,19 +8,23 @@
 #include "ftrace.h"
 #include "parser.h"
 
-// Find the corresponding library name in the /proc/id/maps
-char *find_library(unsigned long addr, int pid)
+void set_list_library(ftrace_t *ftrace)
 {
-    process_library_t **array = parse_maps(pid)
+    process_library_t **array = NULL;
 
-    if (array == NULL)
+    if ((array = parse_maps(ftrace->pid)) != NULL)
+        ftrace->library_list = array;
+}
+
+process_library_t *find_library(ftrace_t *ftrace, unsigned long addr)
+{
+    if (ftrace->library_list == NULL)
         return NULL;
-    for (size_t i = 0; array[i] != NULL; i++) {
-        if (array[i]->start_adrr >= addr && array[i]->end_adrr < addr) {
-            free_maps(array);
-            return array[i]->name;
+    for (size_t i = 0; ftrace->library_list[i] != NULL; i++) {
+        if (addr >= ftrace->library_list[i]->start_adr &&
+        addr <= ftrace->library_list[i]->end_adr) {
+            return ftrace->library_list[i];
         }
     }
-    free_maps(array)
     return NULL;
 }
