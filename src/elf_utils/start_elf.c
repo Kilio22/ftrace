@@ -47,6 +47,26 @@ elf_strptr(ftrace->elf.elf, ndxptr, shdr->sh_name)) == 0)
     return 0;
 }
 
+static int get_dyn_sym_hdr(ftrace_t *ftrace)
+{
+    Elf_Scn *scn = NULL;
+    GElf_Shdr *shdr = malloc(sizeof(GElf_Shdr));
+
+    if (shdr == NULL)
+        return -1;
+    while ((scn = elf_nextscn(ftrace->elf.elf, scn)) != NULL) {
+        gelf_getshdr(scn, shdr);
+        if (shdr->sh_type == SHT_DYNSYM) {
+            break;
+        }
+    }
+    if (scn == NULL)
+        return 0;
+    ftrace->elf.dyn_shdr = shdr;
+    ftrace->elf.dyn_data = elf_getdata(scn, NULL);
+    return 0;
+}
+
 int start_elf(ftrace_t *ftrace, char *filepath)
 {
     int fd = open(filepath, O_RDONLY);
@@ -63,7 +83,8 @@ int start_elf(ftrace_t *ftrace, char *filepath)
         close(fd);
         return -1;
     }
-    if (get_symbol_table_hdr(ftrace) == -1 || get_rela_plt_hdr(ftrace) == -1) {
+    if (get_symbol_table_hdr(ftrace) == -1 || get_rela_plt_hdr(ftrace) == -1
+|| get_dyn_sym_hdr(ftrace) == -1) {
         close(fd);
         return -1;
     }

@@ -31,6 +31,10 @@
 #define SIGNALS_NB 30
 #define BUFF_SIZE 4096
 
+#define CANNOT_GET_DYN_FUNCTIONS ftrace->elf.plt_data == NULL ||\
+ ftrace->elf.plt_shdr == NULL ||\
+ftrace->elf.dyn_data == NULL || ftrace->elf.dyn_shdr == NULL
+
 #define ANALYSE_OP_IF(opcode)             \
     if ((rip_value & 0xFF) == 0x##opcode) \
     analyse_function_##opcode(ftrace, registers.rip)
@@ -77,6 +81,8 @@ struct elf_file_s {
     Elf_Data *sym_data;
     GElf_Shdr *plt_shdr;
     Elf_Data *plt_data;
+    GElf_Shdr *dyn_shdr;
+    Elf_Data *dyn_data;
 };
 
 struct ftrace_s
