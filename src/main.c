@@ -24,5 +24,6 @@ int main(int ac, char **av)
         return FTRACE_FAILURE;
     ret_val = trace_prog(&ftrace);
     end_elf(&ftrace, fd);
+    destroy_fct_stack(&ftrace.stack);
     return ret_val;
 }
