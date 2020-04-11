@@ -28,6 +28,7 @@ SRC	=	\
 		printer/print_signal.c	\
 		analyse_function_9a.c \
 		analyse_function_e8.c \
+		analyse_function_ea.c \
 		analyse_function_ff.c \
 		end_of_prog.c \
 		fct_stack.c \

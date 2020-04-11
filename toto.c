@@ -24,6 +24,7 @@ void tutu(void)
 int main(void)
 {
     toto();
+    kill(getpid(), SIGWINCH);
     tutu();
     exit(0);
 }
