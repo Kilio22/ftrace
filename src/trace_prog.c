@@ -23,12 +23,10 @@ static long analyse_opcode(ftrace_t *ftrace)
         return 84;
     if ((rip_value & 0xFFFF) == 0x050f)
         return get_syscall_infos(ftrace, &registers);
-    if ((rip_value & 0xFF) == 0xe8)
-        return analyse_function_e8(ftrace, registers.rip);
-    if ((rip_value & 0xFF) == 0x9a)
-        return analyse_function_9a(ftrace, registers.rip);
-    if ((rip_value & 0xFF) == 0xff)
-        return analyse_function_ff(ftrace, registers.rip);
+    ANALYSE_OP_IF(e8);
+    ANALYSE_OP_IF(9a);
+    ANALYSE_OP_IF(ff);
+    ANALYSE_OP_IF(ea);
     if ((rip_value & 0xFF) == 0xc3
         || (rip_value & 0xFF) == 0xcb
         || (rip_value & 0xFF) == 0xc2

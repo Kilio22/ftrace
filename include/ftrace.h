@@ -31,6 +31,10 @@
 #define SIGNALS_NB 30
 #define BUFF_SIZE 4096
 
+#define ANALYSE_OP_IF(opcode)             \
+    if ((rip_value & 0xFF) == 0x##opcode) \
+    analyse_function_##opcode(ftrace, registers.rip)
+
 typedef struct ftrace_s ftrace_t;
 
 enum ret_val_type_e
@@ -107,6 +111,7 @@ long get_rip_value(ftrace_t *ftrace, struct user_regs_struct *registers);
 /* Function analysis */
 long analyse_function_e8(ftrace_t *ftrace, unsigned long long rip);
 long analyse_function_9a(ftrace_t *ftrace, unsigned long long rip);
+long analyse_function_ea(ftrace_t *ftrace, unsigned long long rip);
 long analyse_function_ff(ftrace_t *ftrace, unsigned long long rip);
 char *get_function_name(ftrace_t *ftrace, unsigned long addr);
 
