@@ -84,7 +84,7 @@ int start_elf(ftrace_t *ftrace, char *filepath)
         return -1;
     }
     if (get_symbol_table_hdr(ftrace) == -1 || get_rela_plt_hdr(ftrace) == -1
-|| get_dyn_sym_hdr(ftrace) == -1) {
+        || get_dyn_sym_hdr(ftrace) == -1) {
         close(fd);
         return -1;
     }

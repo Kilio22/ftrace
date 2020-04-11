@@ -40,18 +40,17 @@ SRC_TESTS	=	test_pattern.c
 
 SRCS	=	$(SRC:%=$(SRC_PATH)/%) $(SRC_TESTS)
 OBJ	=	$(SRCS:.c=.test_o)
-LIB_PATHS_FLAG	=	$(LIB_PATHS:%=-L$(ROOT_PATH)%)
 
 CFLAGS	=	-Wall \
 			-Wextra \
 			-Werror \
-			-I $(INCL_PATH) \
-			$(LIB_PATHS_FLAG) \
-			$(LIBRARIES)
-CFLAGS	+=	-lcriterion \
-			--coverage
+			-I $(INCL_PATH)
+CFLAGS	+=	--coverage
 
-all:	message $(NAME)
+LDFLAGS	=	-lcriterion \
+			-lelf
+
+all:	fclean message $(NAME)
 
 message:
 	@$(LINE_RETURN)
@@ -63,7 +62,7 @@ message:
 	@$(LINE_RETURN)
 
 $(NAME): $(OBJ)
-	@$(CC) -o $(NAME) $(OBJ) $(CFLAGS) && \
+	@$(CC) -o $(NAME) $(OBJ) $(CFLAGS) $(LDFLAGS)&& \
 		$(ECHO) $(BOLD_T)$(GREEN_C)"\n[✔] COMPILED:" $(DEFAULT)$(LIGHT_GREEN) "$(NAME)\n"$(DEFAULT) || \
 		$(ECHO) $(RED_C)$(BOLD_T)"[✘] "$(UNDLN_T)"BUILD FAILED:" $(LIGHT_RED) "$(NAME)\n"$(DEFAULT)
 	@./$(NAME)
