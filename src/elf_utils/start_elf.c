@@ -32,12 +32,12 @@ static int get_rela_plt_hdr(ftrace_t *ftrace)
     GElf_Shdr *shdr = malloc(sizeof(GElf_Shdr));
     size_t ndxptr = 0;
 
-    if (shdr == NULL || elf_getshdrstrndx(ftrace->elf.elf, &ndxptr) == 0)
+    if (shdr == NULL || elf_getshdrstrndx(ftrace->elf.elf, &ndxptr) == -1)
         return -1;
     while ((scn = elf_nextscn(ftrace->elf.elf, scn)) != NULL) {
         gelf_getshdr(scn, shdr);
-        if (shdr->sh_type == SHT_RELA && strcmp(".rela.plt", elf_strptr(ftrace->elf.elf,
-            ndxptr, shdr->sh_name)) == 0)
+        if (shdr->sh_type == SHT_RELA && strcmp(".rela.plt",
+elf_strptr(ftrace->elf.elf, ndxptr, shdr->sh_name)) == 0)
             break;
     }
     if (scn == NULL)
