@@ -14,6 +14,7 @@ static char *make_function_name(void)
 
 char *get_function_name(struct elf_file_s *elf, unsigned long addr)
 {
+    GElf_Sym sym;
     size_t symbol_nb;
     
     symbol_nb = shdr.sh_size / shdr.sh_entsize;
