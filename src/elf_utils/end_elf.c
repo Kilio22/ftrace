@@ -11,5 +11,7 @@ void end_elf(ftrace_t *ftrace, int fd)
 {
     elf_end(ftrace->elf.elf);
     free(ftrace->elf.sym_shdr);
+    free(ftrace->elf.dyn_shdr);
+    free(ftrace->elf.plt_shdr);
     close(fd);
 }

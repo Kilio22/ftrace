@@ -37,7 +37,7 @@ static int get_rela_plt_hdr(ftrace_t *ftrace)
     while ((scn = elf_nextscn(ftrace->elf.elf, scn)) != NULL) {
         gelf_getshdr(scn, shdr);
         if (shdr->sh_type == SHT_RELA && strcmp(".rela.plt",
-elf_strptr(ftrace->elf.elf, ndxptr, shdr->sh_name)) == 0)
+            elf_strptr(ftrace->elf.elf, ndxptr, shdr->sh_name)) == 0)
             break;
     }
     if (scn == NULL)
