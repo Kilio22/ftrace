@@ -13,28 +13,29 @@ INCL_NAME	=	include
 SRC_PATH	=	$(ROOT_PATH)$(SRC_NAME)
 INCL_PATH	=	$(ROOT_PATH)$(INCL_NAME)
 TESTS_PATH	=	$(ROOT_PATH)$(TESTS_NAME)
-PRINTER_PATH	=	printer
 COLOR_THEME	=	$(BLUE_C)
 DEBUG_THEME	=	$(CYAN_C)
 TESTS_THEME	=	$(RED_C)
 
 SRC	=	\
 		elf_utils/end_elf.c	\
-		elf_utils/start_elf.c	\
+		elf_utils/start_elf.c \
 		globals/const_signals.c	\
-		globals/const_syscall_values.c	\
-		$(PRINTER_PATH)/print_hexa.c	\
-		$(PRINTER_PATH)/print_signal.c	\
+		globals/const_syscall_values.c \
+		parser/parse_maps.c \
+		parser/utils_parser.c \
+		printer/print_hexa.c \
+		printer/print_signal.c	\
+		analyse_function_9a.c \
 		analyse_function_e8.c \
-		end_of_prog.c	\
+		analyse_function_ff.c \
+		end_of_prog.c \
 		get_function_name.c	\
 		fct_stack.c \
 		get_syscall_infos.c	\
 		signals.c \
-		start_prog_to_trace.c	\
-		trace_prog.c	\
-		parser/parse_maps.c \
-		parser/utils_parser.c
+		start_prog_to_trace.c \
+		trace_prog.c
 
 SRCS	=	$(SRC:%=$(SRC_PATH)/%) $(SRC_PATH)/main.c
 OBJ	=	$(SRCS:.c=.o)

@@ -10,6 +10,8 @@
 
 #include <stddef.h>
 
+typedef struct ftrace_s ftrace_t;
+
 struct fct_stack_s {
     const char **names;
     size_t size;
@@ -20,8 +22,7 @@ struct fct_stack_s {
 
 int init_fct_stack(struct fct_stack_s *const stack);
 void destroy_fct_stack(struct fct_stack_s *stack);
-long enter_function(struct fct_stack_s *const stack, const char *name,
-    unsigned long address, size_t *counter);
-long leave_function(struct fct_stack_s *const stack, size_t *counter);
+long enter_function(ftrace_t *ftrace, const char *name, unsigned long address);
+long leave_function(ftrace_t *ftrace);
 
 #endif /* !FCT_STACK_H_ */

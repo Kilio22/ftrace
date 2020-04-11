@@ -26,14 +26,14 @@ static long analyse_opcode(ftrace_t *ftrace)
     if ((rip_value & 0xFF) == 0xe8)
         return analyse_function_e8(ftrace, registers.rip);
     if ((rip_value & 0xFF) == 0x9a)
-        return enter_function(&ftrace->stack, strdup("9A"), 0, &ftrace->counter);
+        return analyse_function_9a(ftrace, registers.rip);
     if ((rip_value & 0xFF) == 0xff)
-        return enter_function(&ftrace->stack, strdup("FF"), 0, &ftrace->counter);
+        return analyse_function_ff(ftrace, registers.rip);
     if ((rip_value & 0xFF) == 0xc3
         || (rip_value & 0xFF) == 0xcb
         || (rip_value & 0xFF) == 0xc2
         || (rip_value & 0xFF) == 0xca)
-        return leave_function(&ftrace->stack, &ftrace->counter);
+        return leave_function(ftrace);
     return FTRACE_OK;
 }
 

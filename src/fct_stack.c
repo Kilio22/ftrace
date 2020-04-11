@@ -5,7 +5,7 @@
 ** fct_stack
 */
 
-#include "fct_stack.h"
+#include "ftrace.h"
 #include "codes.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -31,11 +31,12 @@ void destroy_fct_stack(struct fct_stack_s *stack)
     free(stack->names);
 }
 
-long enter_function(struct fct_stack_s * const stack, const char *name,
-    unsigned long address, size_t *counter)
+long enter_function(ftrace_t *ftrace, const char *name, unsigned long address)
 {
-    (*counter)++;
-    fprintf(stderr, ENTERING_FUNCTION, *counter, name, address);
+    struct fct_stack_s *stack = &ftrace->stack;
+
+    ++ftrace->counter;
+    fprintf(stderr, ENTERING_FUNCTION, ftrace->counter, name, address);
     if (stack->n == stack->size) {
         stack->size += STACK_BLOCK_SIZE;
         stack->names = realloc(stack->names, sizeof(char *) * stack->size);
@@ -46,11 +47,13 @@ long enter_function(struct fct_stack_s * const stack, const char *name,
     return FTRACE_OK;
 }
 
-long leave_function(struct fct_stack_s * const stack, size_t *counter)
+long leave_function(ftrace_t *ftrace)
 {
-    (*counter)++;
+    struct fct_stack_s *stack = &ftrace->stack;
+
+    ++ftrace->counter;
     --stack->n;
-    fprintf(stderr, LEAVING_FUNCTION, *counter, stack->names[stack->n]);
+    fprintf(stderr, LEAVING_FUNCTION, ftrace->counter, stack->names[stack->n]);
     free((void *)stack->names[stack->n]);
     return FTRACE_OK;
 }

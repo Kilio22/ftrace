@@ -29,6 +29,5 @@ long analyse_function_e8(ftrace_t *ftrace, unsigned long long rip)
         return -1;
     symbol_address = next_instuction_address + offset;
     f_name = get_function_name(&ftrace->elf, symbol_address);
-    return enter_function(&ftrace->stack,
-        f_name, symbol_address, &ftrace->counter);
+    return enter_function(ftrace, f_name, symbol_address);
 }
