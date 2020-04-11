@@ -46,7 +46,7 @@ process_library_t **parse_maps(int pid)
 
     sprintf(path, "/proc/%d/maps", pid);
     if ((fp = fopen(path, "r")) == NULL)
-        exit(EXIT_FAILURE);
+        return NULL;
     while (getline(&line, &len, fp) != -1) {
         if ((new = get_data(line)) != NULL) {
             array = realloc(array, sizeof(process_library_t *) * (i + 2));
