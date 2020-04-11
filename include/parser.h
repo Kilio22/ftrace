@@ -14,4 +14,12 @@ typedef struct process_library_s {
     char *name;
 } process_library_t;
 
+void free_maps(process_library_t **array);
+void display_maps(process_library_t **array);
+
+process_library_t *create_data(char *name, char *start, char *end);
+process_library_t *get_data(char *line);
+process_library_t ** parse_maps(int pid);
+
+
 #endif /* !PARSER_H_ */

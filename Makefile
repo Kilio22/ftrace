@@ -33,7 +33,8 @@ SRC	=	\
 		signals.c \
 		start_prog_to_trace.c	\
 		trace_prog.c	\
-		parser/parse_maps.c
+		parser/parse_maps.c \
+		parser/utils_parser.c
 
 SRCS	=	$(SRC:%=$(SRC_PATH)/%) $(SRC_PATH)/main.c
 OBJ	=	$(SRCS:.c=.o)

@@ -34,15 +34,7 @@ process_library_t *get_data(char *line)
     return NULL;
 }
 
-void display(process_library_t **array)
-{
-    for (int i = 0; array[i] != NULL; i++) {
-        printf("%s %s %s\n", array[i]->start_adr,
-        array[i]->end_adr, array[i]->name);
-    }
-}
-
-void parse_maps(int pid)
+process_library_t **parse_maps(int pid)
 {
     FILE *fp;
     char *line = NULL;
@@ -62,7 +54,7 @@ void parse_maps(int pid)
             array[i + 1] = NULL;
             i++;
         }
-    }
-    fclose(fp);
+    } fclose(fp);
     free(line);
+    return array;
 }
