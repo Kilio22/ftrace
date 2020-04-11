@@ -19,9 +19,9 @@ struct fct_stack_s {
 
 #define STACK_BLOCK_SIZE 100
 
-int init_fct_stack(struct fct_stack_s * const stack);
-long enter_function(struct fct_stack_s * const stack, const char *name,
-    unsigned long address);
-long leave_function(struct fct_stack_s * const stack);
+int init_fct_stack(struct fct_stack_s *const stack);
+long enter_function(struct fct_stack_s *const stack, const char *name,
+    unsigned long address, size_t *counter);
+long leave_function(struct fct_stack_s *const stack, size_t *counter);
 
 #endif /* !FCT_STACK_H_ */
