@@ -14,7 +14,6 @@ struct fct_stack_s {
     const char **names;
     size_t size;
     size_t n;
-    size_t count;
 };
 
 #define STACK_BLOCK_SIZE 100
