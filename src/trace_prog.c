@@ -16,7 +16,7 @@ static long get_rip_value(ftrace_t *ftrace, struct user_regs_struct *registers)
 
 static long analyse_opcode(ftrace_t *ftrace)
 {
-    struct user_regs_struct registers = {0};
+    struct user_regs_struct registers = { 0 };
     long rip_value = get_rip_value(ftrace, &registers);
 
     if (rip_value == -1)
@@ -29,7 +29,10 @@ static long analyse_opcode(ftrace_t *ftrace)
         return enter_function(&ftrace->stack, strdup("9A"), 0, &ftrace->counter);
     if ((rip_value & 0xFF) == 0xff)
         return enter_function(&ftrace->stack, strdup("FF"), 0, &ftrace->counter);
-    if ((rip_value & 0xFF) == 0xc3)
+    if ((rip_value & 0xFF) == 0xc3
+        || (rip_value & 0xFF) == 0xcb
+        || (rip_value & 0xFF) == 0xc2
+        || (rip_value & 0xFF) == 0xca)
         return leave_function(&ftrace->stack, &ftrace->counter);
     return FTRACE_OK;
 }

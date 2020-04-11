@@ -24,11 +24,18 @@ int init_fct_stack(struct fct_stack_s * const stack)
     return 0;
 }
 
+void destroy_fct_stack(struct fct_stack_s *stack)
+{
+    for (size_t i = 0; i < stack->n; ++i)
+        free((void *)stack->names[i]);
+    free(stack->names);
+}
+
 long enter_function(struct fct_stack_s * const stack, const char *name,
     unsigned long address, size_t *counter)
 {
     (*counter)++;
-    printf(ENTERING_FUNCTION, *counter, name, address);
+    fprintf(stderr, ENTERING_FUNCTION, *counter, name, address);
     if (stack->n == stack->size) {
         stack->size += STACK_BLOCK_SIZE;
         stack->names = realloc(stack->names, sizeof(char *) * stack->size);
@@ -43,7 +50,7 @@ long leave_function(struct fct_stack_s * const stack, size_t *counter)
 {
     (*counter)++;
     --stack->n;
-    printf(LEAVING_FUNCTION, *counter, stack->names[stack->n]);
+    fprintf(stderr, LEAVING_FUNCTION, *counter, stack->names[stack->n]);
     free((void *)stack->names[stack->n]);
     return FTRACE_OK;
 }
