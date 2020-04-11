@@ -11,7 +11,7 @@ static char *make_function_name(unsigned long addr, char *lib_name)
 {
     char fct_name[50] = {'\0'};
 
-    sprintf(fct_name, "func_%#lx@%s\n", addr, lib_name);
+    sprintf(fct_name, "func_%#lx@%s", addr, lib_name);
     return strdup(fct_name);
 }
 
