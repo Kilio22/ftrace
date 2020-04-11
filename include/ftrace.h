@@ -24,6 +24,7 @@
 #include <sys/user.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <sys/stat.h>
 
 #define SYSCALLS_NB 313
 #define SIGNALS_NB 30
