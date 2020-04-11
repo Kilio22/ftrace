@@ -10,21 +10,19 @@
 static int get_symbol_table_hdr(ftrace_t *ftrace)
 {
     Elf_Scn *scn = NULL;
-    GElf_Shdr *shhdr = malloc(sizeof(GElf_Shdr));
+    GElf_Shdr *shdr = malloc(sizeof(GElf_Shdr));
 
-    if (shhdr == NULL) {
+    if (shdr == NULL)
         return -1;
-    }
-    while ((scn = elf_nextscn(ftrace->elf_file, scn)) != NULL) {
-        gelf_getshdr(scn, shhdr);
-        if (shhdr->sh_type == SHT_SYMTAB) {
+    while ((scn = elf_nextscn(ftrace->elf.elf, scn)) != NULL) {
+        gelf_getshdr(scn, shdr);
+        if (shdr->sh_type == SHT_SYMTAB)
             break;
-        }
     }
-    if (scn == NULL) {
+    if (scn == NULL)
         return 0;
-    }
-    ftrace->symbol_header = shhdr;
+    ftrace->elf.sym_shdr = shdr;
+    ftrace->elf.sym_data = elf_getdata(scn, NULL);
     return 0;
 }
 
@@ -39,8 +37,8 @@ int start_elf(ftrace_t *ftrace, char *filepath)
         close(fd);
         return -1;
     }
-    ftrace->elf_file = elf_begin(fd, ELF_C_READ, NULL);
-    if (ftrace->elf_file == NULL) {
+    ftrace->elf.elf = elf_begin(fd, ELF_C_READ, NULL);
+    if (ftrace->elf.elf == NULL) {
         close(fd);
         return -1;
     }

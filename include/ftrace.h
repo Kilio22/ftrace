@@ -66,13 +66,18 @@ struct my_syscall_s
     my_syscall_arg_t av[6];
 };
 
+struct elf_file_s {
+    Elf *elf;
+    GElf_Shdr *sym_shdr;
+    Elf_Data *sym_data;
+};
+
 struct ftrace_s
 {
     char **args;
     pid_t pid;
-    Elf *elf_file;
-    GElf_Shdr *symbol_header;
     size_t counter;
+    struct elf_file_s elf;
     struct fct_stack_s stack;
 };
 
@@ -95,7 +100,7 @@ struct user_regs_struct *registers);
 
 /* Function analysis */
 long analyse_function_e8(ftrace_t *ftrace, unsigned long long rip);
-char *get_function_name(ftrace_t *ftrace, unsigned long addr);
+char *get_function_name(struct elf_file_s *elf, unsigned long addr);
 
 // Elf utils
 int start_elf(ftrace_t *ftrace, char *filepath);

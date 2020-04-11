@@ -9,7 +9,7 @@
 
 void end_elf(ftrace_t *ftrace, int fd)
 {
-    elf_end(ftrace->elf_file);
-    free(ftrace->symbol_header);
+    elf_end(ftrace->elf.elf);
+    free(ftrace->elf.sym_shdr);
     close(fd);
 }
