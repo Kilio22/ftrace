@@ -58,7 +58,7 @@ long get_syscall_infos(ftrace_t *ftrace, struct user_regs_struct *registers)
     if (sys_call == NULL)
         return FTRACE_OK;
     get_registers_values(&registers_values, registers);
-    fprintf(stderr, "%ld. %s(", ftrace->counter, sys_call->fct_name);
+    fprintf(stderr, "%ld. Syscall %s(", ftrace->counter, sys_call->fct_name);
     ftrace->counter++;
     for (size_t i = 0; i < sys_call->ac; i++) {
         print_hexa_value(ftrace, registers_values[i]);
