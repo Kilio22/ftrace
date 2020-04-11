@@ -26,9 +26,9 @@ static long analyse_opcode(ftrace_t *ftrace)
     if ((rip_value & 0xFF) == 0xe8)
         return analyse_function_e8(ftrace, registers.rip);
     if ((rip_value & 0xFF) == 0x9a)
-        return enter_function(&ftrace->stack, "9A", 0, &ftrace->counter);
+        return enter_function(&ftrace->stack, strdup("9A"), 0, &ftrace->counter);
     if ((rip_value & 0xFF) == 0xff)
-        return enter_function(&ftrace->stack, "FF", 0, &ftrace->counter);
+        return enter_function(&ftrace->stack, strdup("FF"), 0, &ftrace->counter);
     if ((rip_value & 0xFF) == 0xc3)
         return leave_function(&ftrace->stack, &ftrace->counter);
     return FTRACE_OK;
