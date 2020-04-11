@@ -16,8 +16,7 @@ char *find_library(unsigned long addr, int pid)
     if (array == NULL)
         return NULL;
     for (size_t i = 0; array[i] != NULL; i++) {
-        if ((unsigned long)atoi(array[i]->start_adrr) >= addr && 
-        (unsigned long)atoi(array[i]->end_adrr) < addr) {
+        if (array[i]->start_adrr >= addr && array[i]->end_adrr < addr) {
             free_maps(array);
             return array[i]->name;
         }

@@ -9,8 +9,8 @@
 #define PARSER_H_
 
 typedef struct process_library_s {
-    char *start_adr;
-    char *end_adr;
+    unsigned long start_adr;
+    unsigned long end_adr;
     char *name;
 } process_library_t;
 
