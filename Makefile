@@ -32,7 +32,8 @@ SRC	=	\
 		get_syscall_infos.c	\
 		signals.c \
 		start_prog_to_trace.c	\
-		trace_prog.c
+		trace_prog.c	\
+		parser/parse_maps.c
 
 SRCS	=	$(SRC:%=$(SRC_PATH)/%) $(SRC_PATH)/main.c
 OBJ	=	$(SRCS:.c=.o)
