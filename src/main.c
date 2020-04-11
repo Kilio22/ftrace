@@ -6,6 +6,7 @@
 */
 
 #include "ftrace.h"
+#include "parser.h"
 
 int main(int ac, char **av)
 {
@@ -25,5 +26,7 @@ int main(int ac, char **av)
     ret_val = trace_prog(&ftrace);
     end_elf(&ftrace, fd);
     destroy_fct_stack(&ftrace.stack);
+    if (ftrace.library_list != NULL)
+        free_maps(ftrace.library_list);
     return ret_val;
 }

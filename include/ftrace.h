@@ -32,7 +32,7 @@
 #define BUFF_SIZE 4096
 
 #define CANNOT_GET_DYN_FUNCTIONS ftrace->elf.plt_data == NULL ||\
- ftrace->elf.plt_shdr == NULL ||\
+ftrace->elf.plt_shdr == NULL ||\
 ftrace->elf.dyn_data == NULL || ftrace->elf.dyn_shdr == NULL
 
 #define ANALYSE_OP_IF(opcode)             \
