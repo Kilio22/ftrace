@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <signal.h>
 
 const char totostr[] = "I am in toto()\n";
 const char tatastr[] = "I am in tutu()\n";
@@ -25,6 +26,7 @@ int tutu(void)
 int main(void)
 {
     toto();
+    kill(getpid(), SIGUSR1);
     tutu();
     // return 0;
 }
