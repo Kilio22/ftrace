@@ -11,7 +11,7 @@ void print_signal(int signal_value, ftrace_t *ftrace)
 {
     for (size_t count = 0; my_signals[count].name != NULL; count++) {
         if (my_signals[count].value == signal_value) {
-            fprintf(stderr, "%ld. Receive Signal %s\n",
+            fprintf(stderr, "%ld. Received signal %s\n",
             ftrace->counter, my_signals[count].name);
             ftrace->counter++;
         }
