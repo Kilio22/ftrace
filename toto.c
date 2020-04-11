@@ -6,25 +6,24 @@
 */
 
 #include <stdio.h>
-#include <stdlib.h>
 #include <unistd.h>
+#include <stdlib.h>
+// call   0x401146 <toto>
+// 0x401176 <main+9>:   call   0x401157 <tutu>
 
-const char totostr[] = "I am in toto()\n";
-const char tatastr[] = "I am in tutu()\n";
-
-int toto(void)
+void toto(void)
 {
-    write(1, totostr, sizeof(totostr) - 1);
+    printf("i am in toto()\n");
 }
 
-int tutu(void)
+void tutu(void)
 {
-    write(1, tatastr, sizeof(tatastr) - 1);
+    printf("i am in tutu()");
 }
 
 int main(void)
 {
     toto();
     tutu();
-    // return 0;
+    exit(0);
 }
