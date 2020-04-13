@@ -26,13 +26,13 @@ static long analyse_opcode(ftrace_t *ftrace)
         return get_syscall_infos(ftrace, &registers);
     ANALYSE_OP_IF(e8);
     ANALYSE_OP_IF(ff);
-    // if ((rip_value & 0xFF) == 0xc3
-    //     || (rip_value & 0xFF) == 0xcb
-    //     || (rip_value & 0xFF) == 0xc2
-    //     || (rip_value & 0xFF) == 0xca) {
-    //         printf("leaving : %#lx\n", rip_value);
-    //         return leave_function(ftrace);
-    //     }
+    if ((rip_value & 0xFFFF) == 0x41ff)
+        return fprintf(stderr, "Entering function askip mais pas simple mmh\n"), FTRACE_OK;
+    if ((rip_value & 0xFF) == 0xc3
+        || (rip_value & 0xFF) == 0xcb
+        || (rip_value & 0xFF) == 0xc2
+        || (rip_value & 0xFF) == 0xca)
+        return leave_function(ftrace);
     return FTRACE_OK;
 }
 

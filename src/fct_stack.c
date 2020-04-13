@@ -11,9 +11,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-static const char *ENTERING_FUNCTION = "%lu. Entering function %s at %#lx\n";
-static const char *LEAVING_FUNCTION = "%lu. Leaving function %s\n";
-
 int init_fct_stack(struct fct_stack_s * const stack)
 {
     stack->names = malloc(sizeof(char *) * STACK_BLOCK_SIZE);
@@ -36,14 +33,15 @@ long enter_function(ftrace_t *ftrace, const char *name, unsigned long address)
     struct fct_stack_s *stack = &ftrace->stack;
 
     ++ftrace->counter;
-    fprintf(stderr, ENTERING_FUNCTION, ftrace->counter, name, address);
+    fprintf(stderr, "%lu "ENTERING_FUNCTION, stack->n, ftrace->counter, name, address);
     if (stack->n == stack->size) {
         stack->size += STACK_BLOCK_SIZE;
         stack->names = realloc(stack->names, sizeof(char *) * stack->size);
         if (stack->names == NULL)
             return -1;
     }
-    stack->names[stack->n++] = name;
+    stack->names[stack->n] = name;
+    ++stack->n;
     return FTRACE_OK;
 }
 
@@ -52,8 +50,10 @@ long leave_function(ftrace_t *ftrace)
     struct fct_stack_s *stack = &ftrace->stack;
 
     ++ftrace->counter;
+    if (stack->n == 0)
+        return fprintf(stderr, "What the fuque pk t egal a 0 fdp ren mon kwad\n"), FTRACE_OK;
     --stack->n;
-    fprintf(stderr, LEAVING_FUNCTION, ftrace->counter, stack->names[stack->n]);
+    fprintf(stderr, "%lu "LEAVING_FUNCTION, stack->n, ftrace->counter, stack->names[stack->n]);
     free((void *)stack->names[stack->n]);
     return FTRACE_OK;
 }

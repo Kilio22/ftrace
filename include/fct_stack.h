@@ -12,6 +12,9 @@
 
 typedef struct ftrace_s ftrace_t;
 
+#define ENTERING_FUNCTION "%lu. Entering function %s at %#lx\n"
+#define LEAVING_FUNCTION "%lu. Leaving function %s\n"
+
 struct fct_stack_s {
     const char **names;
     size_t size;

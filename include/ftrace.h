@@ -120,8 +120,6 @@ long get_rip_value(ftrace_t *ftrace, struct user_regs_struct *registers);
 
 /* Function analysis */
 long analyse_function_e8(ftrace_t *ftrace, unsigned long long rip);
-long analyse_function_9a(ftrace_t *ftrace, unsigned long long rip);
-long analyse_function_ea(ftrace_t *ftrace, unsigned long long rip);
 long analyse_function_ff(ftrace_t *ftrace, unsigned long long rip);
 
 // To find symbols
