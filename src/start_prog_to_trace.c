@@ -15,6 +15,7 @@ int start_prog_to_trace(ftrace_t *ftrace, char **av)
     if (pid == 0) {
         ptrace(PTRACE_TRACEME, 0, 0, 0);
         execvp(av[1], &av[1]);
+        exit(0);
     } else {
         if (pid == -1)
             return -1;

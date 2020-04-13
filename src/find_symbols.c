@@ -42,7 +42,7 @@ char *find_local_symbol(ftrace_t *ftrace, unsigned long addr)
 ftrace->elf.sym_shdr->sh_entsize;
     for (size_t i = 0; i < symbol_nb; ++i) {
         gelf_getsym(ftrace->elf.sym_data, i, &sym);
-        if (sym.st_value == addr && ELF64_ST_BIND(sym.st_info) != STB_LOCAL)
+        if (sym.st_value == addr)
             return GET_SYM_NAME(ftrace->elf.elf,
 ftrace->elf.sym_shdr->sh_link, sym.st_name);
     }
