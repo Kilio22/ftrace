@@ -26,14 +26,13 @@ SRC	=	\
 		parser/utils_parser.c \
 		printer/print_hexa.c \
 		printer/print_signal.c	\
-		analyse_function_9a.c \
 		analyse_function_e8.c \
-		analyse_function_ea.c \
 		analyse_function_ff.c \
 		end_of_prog.c \
 		fct_stack.c \
 		find_library.c \
-		get_function_name.c	\
+		find_symbols.c \
+		function_name_utils.c \
 		get_syscall_infos.c	\
 		signals.c \
 		start_prog_to_trace.c	\

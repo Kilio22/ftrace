@@ -35,6 +35,10 @@
 ftrace->elf.plt_shdr == NULL ||\
 ftrace->elf.dyn_data == NULL || ftrace->elf.dyn_shdr == NULL
 
+#define GETSYM(data, ndx, dst) gelf_getsym(data, ndx, dst)
+
+#define GET_SYM_NAME(elf, index, offset) strdup(elf_strptr(elf, index, offset))
+
 #define ANALYSE_OP_IF(opcode)             \
     if ((rip_value & 0xFF) == 0x##opcode) \
     analyse_function_##opcode(ftrace, registers.rip)
@@ -119,7 +123,10 @@ long analyse_function_e8(ftrace_t *ftrace, unsigned long long rip);
 long analyse_function_9a(ftrace_t *ftrace, unsigned long long rip);
 long analyse_function_ea(ftrace_t *ftrace, unsigned long long rip);
 long analyse_function_ff(ftrace_t *ftrace, unsigned long long rip);
-char *get_function_name(ftrace_t *ftrace, unsigned long addr);
+
+// To find symbols
+char *find_dynamic_symbol(ftrace_t *ftrace, unsigned long offset);
+char *find_local_symbol(ftrace_t *ftrace, unsigned long addr);
 
 // Elf utils
 int start_elf(ftrace_t *ftrace, char *filepath);
@@ -128,6 +135,7 @@ void end_elf(ftrace_t *ftrace, int fd);
 // For the print
 int print_hexa_value(ftrace_t *ftrace, unsigned long long int value);
 void print_signal(int signal_value, ftrace_t *ftrace);
+char *make_function_name(unsigned long addr, char *lib_name);
 
 //To detect signals
 int detect_signal(int wstatus, ftrace_t *ftrace);

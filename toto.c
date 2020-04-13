@@ -13,18 +13,19 @@
 
 void toto(void)
 {
-    printf("i am in toto()\n");
+    write(1, "i am in toto()\n", 15);
+    // printf("i am in toto()\n");
 }
 
 void tutu(void)
 {
-    printf("i am in tutu()");
+    write(1, "i am in tutu()\n", 15);
+    // printf("i am in tutu()\n");
 }
 
 int main(void)
 {
     toto();
-    kill(getpid(), SIGWINCH);
     tutu();
-    exit(0);
+    return 0;
 }

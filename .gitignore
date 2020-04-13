@@ -141,3 +141,6 @@ bootstrap/
 ftrace
 oui
 my_toto
+*.txt
+.gdb*
+toto

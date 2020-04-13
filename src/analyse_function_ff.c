@@ -10,5 +10,5 @@
 long analyse_function_ff(ftrace_t *ftrace, unsigned long long rip)
 {
     (void)rip;
-    return enter_function(ftrace, strdup("FF"), 0);
+    return enter_function(ftrace, make_function_name(rip, "toto"), 0);
 }

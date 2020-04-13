@@ -5,6 +5,7 @@
 ** ftrace_prog
 */
 
+#include <endian.h>
 #include "ftrace.h"
 
 long get_rip_value(ftrace_t *ftrace, struct user_regs_struct *registers)
@@ -24,14 +25,14 @@ static long analyse_opcode(ftrace_t *ftrace)
     if ((rip_value & 0xFFFF) == 0x050f)
         return get_syscall_infos(ftrace, &registers);
     ANALYSE_OP_IF(e8);
-    ANALYSE_OP_IF(9a);
     ANALYSE_OP_IF(ff);
-    ANALYSE_OP_IF(ea);
-    if ((rip_value & 0xFF) == 0xc3
-        || (rip_value & 0xFF) == 0xcb
-        || (rip_value & 0xFF) == 0xc2
-        || (rip_value & 0xFF) == 0xca)
-        return leave_function(ftrace);
+    // if ((rip_value & 0xFF) == 0xc3
+    //     || (rip_value & 0xFF) == 0xcb
+    //     || (rip_value & 0xFF) == 0xc2
+    //     || (rip_value & 0xFF) == 0xca) {
+    //         printf("leaving : %#lx\n", rip_value);
+    //         return leave_function(ftrace);
+    //     }
     return FTRACE_OK;
 }
 
