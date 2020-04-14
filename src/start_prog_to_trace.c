@@ -20,6 +20,7 @@ int start_prog_to_trace(ftrace_t *ftrace, char **av)
         if (pid == -1)
             return -1;
         ftrace->pid = pid;
+        ftrace->binary_name = av[1];
         waitpid(pid, &wstatus, 0);
         if (ptrace(PTRACE_SETOPTIONS, pid, 0, PTRACE_O_TRACEEXIT) == -1)
             return -1;

@@ -7,88 +7,25 @@
 
 #include "ftrace.h"
 
-static int get_symbol_table_hdr(struct elf_file_s *elf)
+int get_elf_libs(ftrace_t *ftrace)
 {
-    Elf_Scn *scn = NULL;
-    GElf_Shdr *shdr = malloc(sizeof(GElf_Shdr));
-
-    if (shdr == NULL)
-        return -1;
-    while ((scn = elf_nextscn(elf->elf, scn)) != NULL) {
-        gelf_getshdr(scn, shdr);
-        if (shdr->sh_type == SHT_SYMTAB)
-            break;
-    }
-    if (scn == NULL)
-        return 0;
-    elf->sym_shdr = shdr;
-    elf->sym_data = elf_getdata(scn, NULL);
-    return 0;
-}
-
-static int get_rela_plt_hdr(struct elf_file_s *elf)
-{
-    Elf_Scn *scn = NULL;
-    GElf_Shdr *shdr = malloc(sizeof(GElf_Shdr));
-    size_t ndxptr = 0;
-
-    if (shdr == NULL || elf_getshdrstrndx(elf->elf, &ndxptr) == -1)
-        return -1;
-    while ((scn = elf_nextscn(elf->elf, scn)) != NULL) {
-        gelf_getshdr(scn, shdr);
-        if (shdr->sh_type == SHT_RELA && strcmp(".rela.plt",
-            elf_strptr(elf->elf, ndxptr, shdr->sh_name)) == 0)
-            break;
-    }
-    if (scn == NULL)
-        return 0;
-    elf->plt_shdr = shdr;
-    elf->plt_data = elf_getdata(scn, NULL);
-    return 0;
-}
-
-static int get_dyn_sym_hdr(struct elf_file_s *elf)
-{
-    Elf_Scn *scn = NULL;
-    GElf_Shdr *shdr = malloc(sizeof(GElf_Shdr));
-
-    if (shdr == NULL)
-        return -1;
-    while ((scn = elf_nextscn(elf->elf, scn)) != NULL) {
-        gelf_getshdr(scn, shdr);
-        if (shdr->sh_type == SHT_DYNSYM) {
-            break;
+    for (size_t i = 0; ftrace->library_list[i] != NULL; i++) {
+        if (has_elf_element(ftrace, ftrace->library_list[i]->name) == NULL
+&& get_elf_values(ftrace, ftrace->library_list[i]->name) == -1) {
+            return -1;
         }
     }
-    if (scn == NULL)
-        return 0;
-    elf->dyn_shdr = shdr;
-    elf->dyn_data = elf_getdata(scn, NULL);
     return 0;
 }
 
-int start_elf(ftrace_t *ftrace, char *filepath)
+int start_elf(ftrace_t *ftrace)
 {
-    int fd = open(filepath, O_RDONLY);
-    struct elf_file_s *elf = malloc(sizeof(struct elf_file_s));
-
-    if (fd == -1)
-        return -1;
     if (elf_version(EV_CURRENT) == EV_NONE) {
         fprintf(stderr, "Cannot load libelf->\n");
-        close(fd);
         return -1;
     }
-    elf->elf = elf_begin(fd, ELF_C_READ, NULL);
-    if (elf->elf == NULL) {
-        close(fd);
+    set_list_library(ftrace);
+    if (get_elf_libs(ftrace) == -1)
         return -1;
-    }
-    if (get_symbol_table_hdr(elf) == -1 || get_rela_plt_hdr(elf) == -1
-        || get_dyn_sym_hdr(elf) == -1) {
-        close(fd);
-        return -1;
-    }
-    add_elf_element(ftrace, elf, fd);
-    return fd;
+    return 0;
 }

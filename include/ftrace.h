@@ -31,9 +31,9 @@
 #define SIGNALS_NB 30
 #define BUFF_SIZE 4096
 
-#define CANNOT_GET_DYN_FUNCTIONS ftrace->list_symbole[0]->elf->plt_data == NULL ||\
-ftrace->list_symbole[0]->elf->plt_shdr == NULL ||\
-ftrace->list_symbole[0]->elf->dyn_data == NULL || ftrace->list_symbole[0]->elf->dyn_shdr == NULL
+#define CANNOT_GET_DYN_FUNCTIONS symbols->elf->plt_data == NULL ||\
+symbols->elf->plt_shdr == NULL ||\
+symbols->elf->dyn_data == NULL || symbols->elf->dyn_shdr == NULL
 
 #define GETSYM(data, ndx, dst) gelf_getsym(data, ndx, dst)
 
@@ -89,7 +89,7 @@ struct elf_file_s {
     Elf_Data *dyn_data;
 };
 
-struct list_symbole_s {
+struct symbols_s {
     struct elf_file_s *elf;
     int fd;
     char *name;
@@ -97,10 +97,10 @@ struct list_symbole_s {
 
 struct ftrace_s
 {
-    char **args;
+    char *binary_name;
     pid_t pid;
     size_t counter;
-    struct list_symbole_s **list_symbole;
+    struct symbols_s **list_symbole;
     struct fct_stack_s stack;
     process_library_t **library_list;
 };
@@ -129,12 +129,14 @@ long analyse_function_e8(ftrace_t *ftrace, unsigned long long rip);
 long analyse_function_ff(ftrace_t *ftrace, unsigned long long rip);
 
 // To find symbols
-char *find_dynamic_symbol(ftrace_t *ftrace, unsigned long offset);
-char *find_local_symbol(ftrace_t *ftrace, unsigned long addr);
+char *find_dynamic_symbol(struct symbols_s *symbols, unsigned long offset);
+char *find_local_symbol(struct symbols_s *symbols, unsigned long addr);
 
 // Elf utils
-int start_elf(ftrace_t *ftrace, char *filepath);
+int start_elf(ftrace_t *ftrace);
 void end_elf(ftrace_t *ftrace);
+int get_elf_libs(ftrace_t *ftrace);
+int get_elf_values(ftrace_t *ftrace, char *filepath);
 
 // For the print
 int print_hexa_value(ftrace_t *ftrace, unsigned long long int value);
@@ -145,10 +147,12 @@ char *make_function_name(unsigned long addr, char *lib_name);
 int detect_signal(int wstatus, ftrace_t *ftrace);
 
 void set_list_library(ftrace_t *ftrace);
-process_library_t *find_library(ftrace_t *ftrace, unsigned long addr);
+process_library_t *find_library_by_address(ftrace_t *ftrace, unsigned long addr);
+process_library_t *find_library_by_name(ftrace_t *ftrace, char *name);
 
 void init_list_symbols(ftrace_t *ftrace);
-void add_elf_element(ftrace_t *ftrace, struct elf_file_s *elf, int fd);
+void add_elf_element(ftrace_t *ftrace, struct elf_file_s *elf, int fd, char *name);
 void display_list(ftrace_t *ftrace);
+struct symbols_s *has_elf_element(ftrace_t *ftrace, char *name);
 
 #endif /* !STRACE_H_ */

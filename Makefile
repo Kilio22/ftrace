@@ -13,20 +13,26 @@ INCL_NAME	=	include
 SRC_PATH	=	$(ROOT_PATH)$(SRC_NAME)
 INCL_PATH	=	$(ROOT_PATH)$(INCL_NAME)
 TESTS_PATH	=	$(ROOT_PATH)$(TESTS_NAME)
+ELF_UTILS_PATH	=	elf_utils
+LIST_SYMBOL_PATH	=	list_symbol
+GLOBALS_PATH	=	globals
+PARSER_PATH	=	parser
+PRINTER_PATH	=	printer
 COLOR_THEME	=	$(BLUE_C)
 DEBUG_THEME	=	$(CYAN_C)
 TESTS_THEME	=	$(RED_C)
 
 SRC	=	\
-		elf_utils/end_elf.c	\
-		elf_utils/start_elf.c \
-		list_symbol/list_symbol.c \
-		globals/const_signals.c	\
-		globals/const_syscall_values.c \
-		parser/parse_maps.c \
-		parser/utils_parser.c \
-		printer/print_hexa.c \
-		printer/print_signal.c	\
+		$(ELF_UTILS_PATH)/end_elf.c	\
+		$(ELF_UTILS_PATH)/get_elf_values.c \
+		$(ELF_UTILS_PATH)/start_elf.c \
+		$(LIST_SYMBOL_PATH)/list_symbol.c \
+		$(GLOBALS_PATH)/const_signals.c	\
+		$(GLOBALS_PATH)/const_syscall_values.c \
+		$(PARSER_PATH)/parse_maps.c \
+		$(PARSER_PATH)/utils_parser.c \
+		$(PRINTER_PATH)/print_hexa.c \
+		$(PRINTER_PATH)/print_signal.c	\
 		analyse_function_e8.c \
 		analyse_function_ff.c \
 		end_of_prog.c \

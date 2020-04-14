@@ -13,14 +13,14 @@
 
 void toto(void)
 {
-    write(1, "i am in toto()\n", 15);
-    // printf("i am in toto()\n");
+    // write(1, "i am in toto()\n", 15);
+    printf("i am in toto()\n");
 }
 
 void tutu(void)
 {
-    write(1, "i am in tutu()\n", 15);
-    // printf("i am in tutu()\n");
+    // write(1, "i am in tutu()\n", 15);
+    printf("i am in tutu()\n");
 }
 
 int main(void)
