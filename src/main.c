@@ -24,9 +24,8 @@ int main(int ac, char **av)
     fd = start_elf(&ftrace, av[1]);
     if (fd == -1)
         return FTRACE_FAILURE;
-    display_list(&ftrace);
     ret_val = trace_prog(&ftrace);
-    end_elf(&ftrace, fd);
+    end_elf(&ftrace);
     destroy_fct_stack(&ftrace.stack);
     if (ftrace.library_list != NULL)
         free_maps(ftrace.library_list);

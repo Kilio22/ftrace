@@ -31,9 +31,6 @@
 #define SIGNALS_NB 30
 #define BUFF_SIZE 4096
 
-
-
-
 #define CANNOT_GET_DYN_FUNCTIONS ftrace->list_symbole[0]->elf->plt_data == NULL ||\
 ftrace->list_symbole[0]->elf->plt_shdr == NULL ||\
 ftrace->list_symbole[0]->elf->dyn_data == NULL || ftrace->list_symbole[0]->elf->dyn_shdr == NULL
@@ -137,7 +134,7 @@ char *find_local_symbol(ftrace_t *ftrace, unsigned long addr);
 
 // Elf utils
 int start_elf(ftrace_t *ftrace, char *filepath);
-void end_elf(ftrace_t *ftrace, int fd);
+void end_elf(ftrace_t *ftrace);
 
 // For the print
 int print_hexa_value(ftrace_t *ftrace, unsigned long long int value);
