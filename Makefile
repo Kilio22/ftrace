@@ -20,6 +20,7 @@ TESTS_THEME	=	$(RED_C)
 SRC	=	\
 		elf_utils/end_elf.c	\
 		elf_utils/start_elf.c \
+		list_symbol/list_symbol.c \
 		globals/const_signals.c	\
 		globals/const_syscall_values.c \
 		parser/parse_maps.c \

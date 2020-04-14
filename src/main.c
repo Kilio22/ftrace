@@ -20,9 +20,11 @@ int main(int ac, char **av)
         return FTRACE_FAILURE;
     if (start_prog_to_trace(&ftrace, av) == -1)
         return FTRACE_FAILURE;
+    init_list_symbols(&ftrace);
     fd = start_elf(&ftrace, av[1]);
     if (fd == -1)
         return FTRACE_FAILURE;
+    display_list(&ftrace);
     ret_val = trace_prog(&ftrace);
     end_elf(&ftrace, fd);
     destroy_fct_stack(&ftrace.stack);
