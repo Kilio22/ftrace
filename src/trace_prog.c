@@ -25,10 +25,6 @@ static long analyse_opcode(ftrace_t *ftrace)
         return get_syscall_infos(ftrace, &registers);
     ANALYSE_OP_IF(e8);
     ANALYSE_OP_IF(ff);
-    // if (registers.rip == 0x4012c9)
-    //     return fprintf(stderr, "mmmmmmmmmmh\n"), FTRACE_OK;
-    // if ((rip_value & 0xFFFF) == 0x41ff || (rip_value & 0xFFFF) == 0xff14)
-    //     return fprintf(stderr, "Entering function askip mais pas simple mmh\n"), FTRACE_OK;
     if ((rip_value & 0xFF) == 0xc3
         || (rip_value & 0xFF) == 0xcb
         || (rip_value & 0xFF) == 0xc2
