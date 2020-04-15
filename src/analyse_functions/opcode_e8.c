@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2020
 ** PSU_ftrace_2019
 ** File description:
-** get_function_name
+** opcode_e8
 */
 
 #include "ftrace.h"

@@ -126,7 +126,9 @@ long get_rip_value(ftrace_t *ftrace, struct user_regs_struct *registers);
 
 /* Function analysis */
 long analyse_function_e8(ftrace_t *ftrace, unsigned long long rip);
+int32_t get_disp(ftrace_t *ftrace, uint64_t rip, uint8_t modrm);
 long analyse_function_ff(ftrace_t *ftrace, unsigned long long rip);
+long analyse_function_ff2(ftrace_t *ftrace, uint64_t rip, uint8_t modrm);
 
 // To find symbols
 char *find_dynamic_symbol(struct symbols_s *symbols, unsigned long offset);

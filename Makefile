@@ -13,6 +13,7 @@ INCL_NAME	=	include
 SRC_PATH	=	$(ROOT_PATH)$(SRC_NAME)
 INCL_PATH	=	$(ROOT_PATH)$(INCL_NAME)
 TESTS_PATH	=	$(ROOT_PATH)$(TESTS_NAME)
+ANALYSE_FUNCTIONS_PATH	=	analyse_functions
 ELF_UTILS_PATH	=	elf_utils
 LIST_SYMBOL_PATH	=	list_symbol
 GLOBALS_PATH	=	globals
@@ -23,6 +24,10 @@ DEBUG_THEME	=	$(CYAN_C)
 TESTS_THEME	=	$(RED_C)
 
 SRC	=	\
+		$(ANALYSE_FUNCTIONS_PATH)/get_disp.c \
+		$(ANALYSE_FUNCTIONS_PATH)/opcode_e8.c \
+		$(ANALYSE_FUNCTIONS_PATH)/opcode_ff.c \
+		$(ANALYSE_FUNCTIONS_PATH)/opcode_ff2.c \
 		$(ELF_UTILS_PATH)/end_elf.c	\
 		$(ELF_UTILS_PATH)/get_elf_values.c \
 		$(ELF_UTILS_PATH)/start_elf.c \
@@ -33,8 +38,6 @@ SRC	=	\
 		$(PARSER_PATH)/utils_parser.c \
 		$(PRINTER_PATH)/print_hexa.c \
 		$(PRINTER_PATH)/print_signal.c	\
-		analyse_function_e8.c \
-		analyse_function_ff.c \
 		end_of_prog.c \
 		fct_stack.c \
 		find_library.c \
