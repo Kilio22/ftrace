@@ -19,7 +19,7 @@ int main(int ac, char **av)
         return FTRACE_FAILURE;
     if (start_prog_to_trace(&ftrace, av) == -1)
         return FTRACE_FAILURE;
-    init_list_symbols(&ftrace);
+    init_symbols_list(&ftrace);
     if (start_elf(&ftrace) == -1)
         return FTRACE_FAILURE;
     ret_val = trace_prog(&ftrace);

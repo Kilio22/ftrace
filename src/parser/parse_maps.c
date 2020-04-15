@@ -22,9 +22,9 @@ process_library_t *create_data(char *name, char *start, char *end)
 
 process_library_t *get_data(char *line)
 {
-    char *name;
-    char *start;
-    char *end;
+    char *name = NULL;
+    char *start = NULL;
+    char *end = NULL;
 
     start = strsep(&line, " -");
     end = strsep(&line, " -");
@@ -42,7 +42,7 @@ process_library_t **parse_maps(int pid)
     char *line = NULL;
     size_t len = 0;
     char path[64];
-    int i = 0;
+    size_t i = 0;
     process_library_t **array = malloc(sizeof(process_library_t *));
     process_library_t *new;
 
@@ -52,11 +52,11 @@ process_library_t **parse_maps(int pid)
     while (getline(&line, &len, fp) != -1) {
         if ((new = get_data(line)) != NULL) {
             array = realloc(array, sizeof(process_library_t *) * (i + 2));
-            array[i] = new;
-            array[i + 1] = NULL;
-            i++;
+            array[i++] = new;
+            array[i] = NULL;
         }
-    } fclose(fp);
+    }
+    fclose(fp);
     free(line);
     return array;
 }

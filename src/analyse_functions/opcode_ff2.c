@@ -28,14 +28,17 @@ long analyse_function_ff2(ftrace_t *ftrace, uint64_t rip, uint8_t modrm)
 {
     int64_t regs[8];
     int32_t value = get_disp(ftrace, rip, modrm);
+    char *f_name = NULL;
 
     if (value == -1)
         return -1;
     if (modrm % 8 == 4 && modrm != 0xD4)
-        return enter_function(ftrace, make_function_name(rip, "toto"), 0);
+        return enter_function(ftrace,
+make_function_name(rip, ftrace->binary_name), 0);
     if (get_regs(ftrace, regs) == -1)
         return -1;
     else if (modrm != 0x15)
         value += regs[modrm % 8];
-    return enter_function(ftrace, make_function_name(rip, "toto"), value);
+    f_name = get_symbol(ftrace, value);
+    return enter_function(ftrace, f_name, value);
 }

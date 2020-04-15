@@ -15,10 +15,10 @@ INCL_PATH	=	$(ROOT_PATH)$(INCL_NAME)
 TESTS_PATH	=	$(ROOT_PATH)$(TESTS_NAME)
 ANALYSE_FUNCTIONS_PATH	=	analyse_functions
 ELF_UTILS_PATH	=	elf_utils
-LIST_SYMBOL_PATH	=	list_symbol
 GLOBALS_PATH	=	globals
 PARSER_PATH	=	parser
 PRINTER_PATH	=	printer
+SYMBOLS_MANAGEMENT_PATH	=	symbols_management
 COLOR_THEME	=	$(BLUE_C)
 DEBUG_THEME	=	$(CYAN_C)
 TESTS_THEME	=	$(RED_C)
@@ -31,17 +31,18 @@ SRC	=	\
 		$(ELF_UTILS_PATH)/end_elf.c	\
 		$(ELF_UTILS_PATH)/get_elf_values.c \
 		$(ELF_UTILS_PATH)/start_elf.c \
-		$(LIST_SYMBOL_PATH)/list_symbol.c \
 		$(GLOBALS_PATH)/const_signals.c	\
 		$(GLOBALS_PATH)/const_syscall_values.c \
 		$(PARSER_PATH)/parse_maps.c \
 		$(PARSER_PATH)/utils_parser.c \
 		$(PRINTER_PATH)/print_hexa.c \
 		$(PRINTER_PATH)/print_signal.c	\
+		$(SYMBOLS_MANAGEMENT_PATH)/find_symbol.c	\
+		$(SYMBOLS_MANAGEMENT_PATH)/get_symbol.c	\
+		$(SYMBOLS_MANAGEMENT_PATH)/manage_symbols_list.c	\
 		end_of_prog.c \
 		fct_stack.c \
 		find_library.c \
-		find_symbols.c \
 		function_name_utils.c \
 		get_syscall_infos.c	\
 		signals.c \

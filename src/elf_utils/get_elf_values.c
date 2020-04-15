@@ -74,6 +74,7 @@ int get_elf_values(ftrace_t *ftrace, char *filepath)
 
     if (fd == -1 || elf == NULL)
         return -1;
+    memset(elf, 0, sizeof(struct elf_file_s));
     elf->elf = elf_begin(fd, ELF_C_READ, NULL);
     if (elf->elf == NULL) {
         close(fd);

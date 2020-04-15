@@ -21,7 +21,7 @@ int get_elf_libs(ftrace_t *ftrace)
 int start_elf(ftrace_t *ftrace)
 {
     if (elf_version(EV_CURRENT) == EV_NONE) {
-        fprintf(stderr, "Cannot load libelf->\n");
+        fprintf(stderr, "Cannot load libelf\n");
         return -1;
     }
     set_list_library(ftrace);

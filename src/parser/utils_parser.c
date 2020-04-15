@@ -17,10 +17,16 @@ void free_maps(process_library_t **array)
     free(array);
 }
 
-void display_maps(process_library_t **array)
+process_library_t *get_lib(ftrace_t *ftrace, unsigned long symbol_address)
 {
-    for (int i = 0; array[i] != NULL; i++) {
-        printf("%ld %ld %s\n", array[i]->start_adr,
-        array[i]->end_adr, array[i]->name);
+    process_library_t *lib = NULL;
+
+    lib = find_library_by_address(ftrace, symbol_address);
+    if (!lib) {
+        set_list_library(ftrace);
+        if (get_elf_libs(ftrace) == -1)
+            return NULL;
     }
+    lib = find_library_by_address(ftrace, symbol_address);
+    return lib;
 }

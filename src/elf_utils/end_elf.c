@@ -11,15 +11,15 @@ void end_elf(ftrace_t *ftrace)
 {
     size_t i = 0;
 
-    while (ftrace->list_symbole[i] != NULL) {
-        elf_end(ftrace->list_symbole[i]->elf->elf);
-        free(ftrace->list_symbole[i]->elf->sym_shdr);
-        free(ftrace->list_symbole[i]->elf->dyn_shdr);
-        free(ftrace->list_symbole[i]->elf->plt_shdr);
-        free(ftrace->list_symbole[i]->elf);
-        close(ftrace->list_symbole[i]->fd);
-        free(ftrace->list_symbole[i]);
+    while (ftrace->symbols_list[i] != NULL) {
+        elf_end(ftrace->symbols_list[i]->elf->elf);
+        free(ftrace->symbols_list[i]->elf->sym_shdr);
+        free(ftrace->symbols_list[i]->elf->dyn_shdr);
+        free(ftrace->symbols_list[i]->elf->plt_shdr);
+        free(ftrace->symbols_list[i]->elf);
+        close(ftrace->symbols_list[i]->fd);
+        free(ftrace->symbols_list[i]);
         i++;
     }
-    free(ftrace->list_symbole);
+    free(ftrace->symbols_list);
 }
