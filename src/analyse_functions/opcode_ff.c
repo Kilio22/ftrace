@@ -24,5 +24,5 @@ long analyse_function_ff(ftrace_t *ftrace, unsigned long long rip)
 
     if (((modrm >> 3) & 0b111) == 2)
         return analyse_function_ff2(ftrace, rip, modrm);
-    return fprintf(stderr, "En a encore eu de la chance\n"), FTRACE_OK;
+    return fprintf(stderr, "On a encore eu de la chance\n"), FTRACE_OK;
 }
